@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xI+KNrv+2jI=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\RenataHair.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\leiti\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "C:\\Users\\leiti\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
