@@ -1,0 +1,6 @@
+@RenataHair_HostAddress = http://localhost:5261
+
+GET {{RenataHair_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\RenataHair.csproj": {}
+    "C:\\Users\\lecp1\\source\\repos\\Renata_Hair\\RenataHair\\RenataHair.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\RenataHair.csproj": {
+    "C:\\Users\\lecp1\\source\\repos\\Renata_Hair\\RenataHair\\RenataHair.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\RenataHair.csproj",
+        "projectUniqueName": "C:\\Users\\lecp1\\source\\repos\\Renata_Hair\\RenataHair\\RenataHair.csproj",
         "projectName": "RenataHair",
-        "projectPath": "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\RenataHair.csproj",
-        "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leiti\\Desktop\\RenataHair\\RenataHair\\obj\\",
+        "projectPath": "C:\\Users\\lecp1\\source\\repos\\Renata_Hair\\RenataHair\\RenataHair.csproj",
+        "packagesPath": "C:\\Users\\lecp1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lecp1\\source\\repos\\Renata_Hair\\RenataHair\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lecp1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -53,6 +54,26 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[10.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[10.0.6, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[10.0.1, )"
             }
           },
           "imports": [
@@ -74,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
