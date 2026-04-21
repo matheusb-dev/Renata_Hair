@@ -4,27 +4,28 @@ Tela de Login
 Tela inicial do sistema, responsável pela autenticação do usuário.
 
 🖥️ Front-end
-Criar uma tela simples e centralizada
-Campos:
-Usuário
-Senha
-Labels devem ficar fora dos inputs
-Botão: "Entrar"
-Exibir mensagem de erro:
+Tela de login centralizada e responsiva
+Campos: Usuário e Senha
+Ícones dentro dos inputs
+Botão: "Entrar" com estado de carregamento
+Exibir mensagens de erro:
+
+“Preencha todos os campos”
 “Usuário ou senha inválidos”
-Cores:
-Fundo: rosa escuro
-Componentes: branco
-Layout limpo e minimalista
+Animação de tremor em caso de erro
+Cores: Fundo em gradiente rosa, componentes claros com transparência
+Layout limpo e moderno
+
 ⚙️ Back-end
 Validar usuário e senha
 Retornar:
-Sucesso → redirecionar para sistema
+Sucesso → autenticação realizada
 Erro → mensagem de falha
-Apenas 1 tipo de acesso (sem níveis por enquanto)
-🗄️ Banco de Dados
+Apenas 1 tipo de acesso
 
+🗄️ Banco de Dados
 Tabela: usuarios
+Campos: id, usuario, senha
 
 Campos:
 
