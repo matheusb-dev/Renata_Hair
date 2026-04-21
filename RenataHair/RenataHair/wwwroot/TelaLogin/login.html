@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renata Hair - Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="login-box">
+
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo Renata Hair">
+        </div>
+
+        <h2>Bem-vindo(a)</h2>
+        <p>Faça login para continuar</p>
+
+        <div id="erro-login" class="erro"></div>
+
+        <div class="form-group">
+            <i class="fa fa-user"></i>
+            <input type="text" id="username" placeholder="Usuário">
+        </div>
+
+        <div class="form-group">
+            <i class="fa fa-lock"></i>
+            <input type="password" id="password" placeholder="Senha">
+        </div>
+
+        <button id="btnLogin" onclick="fazerLogin()">Entrar</button>
+
+    </div>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
