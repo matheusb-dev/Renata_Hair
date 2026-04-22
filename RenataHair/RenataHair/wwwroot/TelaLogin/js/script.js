@@ -35,7 +35,8 @@ function fazerLogin() {
     btn.innerText = "Entrando...";
     btn.disabled = true;
 
-    const url = `http://localhost:5020/api/Auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+   
+    const url = `${window.location.origin}/api/Auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
 
     fetch(url, {
         method: "POST",

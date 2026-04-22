@@ -1,0 +1,7 @@
+wwwroot\TelaLogin\css\style.css
+wwwroot\TelaLogin\img\Logo.png
+wwwroot\TelaLogin\login.html
+wwwroot\TelaLogin\js\script.js
+C:\Users\leiti\Desktop\Projetos\Renata_Hair\RenataHair\RenataHair\wwwroot\TelaLogin\css\style.css
+C:\Users\leiti\Desktop\Projetos\Renata_Hair\RenataHair\RenataHair\wwwroot\TelaLogin\login.html
+C:\Users\leiti\Desktop\Projetos\Renata_Hair\RenataHair\RenataHair\wwwroot\TelaLogin\js\script.js
