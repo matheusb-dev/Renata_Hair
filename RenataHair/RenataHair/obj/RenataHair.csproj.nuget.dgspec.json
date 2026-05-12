@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leiti\\Desktop\\Projetos\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj": {}
+    "C:\\Users\\leiti\\Desktop\\GIT\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leiti\\Desktop\\Projetos\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj": {
+    "C:\\Users\\leiti\\Desktop\\GIT\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\Projetos\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj",
+        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj",
         "projectName": "RenataHair",
-        "projectPath": "C:\\Users\\leiti\\Desktop\\Projetos\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj",
+        "projectPath": "C:\\Users\\leiti\\Desktop\\GIT\\Renata_Hair\\RenataHair\\RenataHair\\RenataHair.csproj",
         "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leiti\\Desktop\\Projetos\\Renata_Hair\\RenataHair\\RenataHair\\obj\\",
+        "outputPath": "C:\\Users\\leiti\\Desktop\\GIT\\Renata_Hair\\RenataHair\\RenataHair\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -52,13 +52,13 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[10.0.7, )"
-            },
-            "Microsoft.AspNetCore.Cors": {
-              "target": "Package",
-              "version": "[2.3.9, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -68,15 +68,11 @@
               "target": "Package",
               "version": "[10.0.1, )"
             },
+            "Scalar.AspNetCore": {
+              "target": "Package",
+              "version": "[2.14.11, )"
+            },
             "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[10.1.7, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerGen": {
-              "target": "Package",
-              "version": "[10.1.7, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerUI": {
               "target": "Package",
               "version": "[10.1.7, )"
             }

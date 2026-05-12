@@ -1,6 +1,5 @@
 function tremerTela() {
     const box = document.querySelector(".login-box");
-
     box.classList.remove("erro-animacao");
     void box.offsetWidth;
     box.classList.add("erro-animacao");
@@ -8,14 +7,11 @@ function tremerTela() {
 
 function mostrarErro(mensagem) {
     const erro = document.getElementById("erro-login");
-
     erro.innerText = mensagem;
     erro.style.display = "block";
-
     erro.style.animation = "none";
     erro.offsetHeight;
     erro.style.animation = "shake 0.3s";
-
     tremerTela();
 }
 
@@ -31,30 +27,34 @@ function fazerLogin() {
     }
 
     erro.style.display = "none";
-
     btn.innerText = "Entrando...";
     btn.disabled = true;
 
-   
-    const url = `${window.location.origin}/api/Auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-
-    fetch(url, {
+    fetch("/api/Auth/login", {
         method: "POST",
-        credentials: "include"
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            usuario: username,
+            senha: password
+        })
     })
         .then(response => {
-            if (response.ok) return response.text();
+            if (response.ok) return response.json();
             throw new Error();
         })
         .then(data => {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
             btn.innerText = "Entrar";
             btn.disabled = false;
 
-            alert(data);
+            window.location.href = "/index.html";
         })
         .catch(() => {
             mostrarErro("Usuário ou senha inválidos");
-
             btn.innerText = "Entrar";
             btn.disabled = false;
         });

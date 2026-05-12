@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace RenataHair.DTOs
 {
-    public class LoginRequestDto
+    public class LoginRequest
     {
-        public string Nome { get; set; }
-
-        [DataType(DataType.Password)]
-        public string Senha { get; set; }
+        public string Usuario { get; set; } = string.Empty;
+        public string Senha { get; set; } = string.Empty;
     }
 }
