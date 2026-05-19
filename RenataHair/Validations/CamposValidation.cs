@@ -2,7 +2,7 @@
 {
     public static string? Validar(ClienteRequest request)
     {
-        // Nome
+       
         if (string.IsNullOrWhiteSpace(request.Nome))
             return "Nome é obrigatório";
 
@@ -12,14 +12,14 @@
         if (request.Nome.Trim().Length > 250)
             return "Nome deve ter no máximo 250 caracteres";
 
-        // CPF
+        
         if (string.IsNullOrWhiteSpace(request.Cpf))
             return "CPF é obrigatório";
 
         if (request.Cpf.Any(char.IsLetter))
             return "CPF não pode conter letras";
 
-        // Telefone
+        
         if (string.IsNullOrWhiteSpace(request.Telefone))
             return "Telefone é obrigatório";
 
@@ -46,7 +46,7 @@
                 return "Email deve ter no máximo 250 caracteres";
         }
 
-        // Endereço
+     
         if (!string.IsNullOrWhiteSpace(request.Endereco) && request.Endereco.Trim().Length > 250)
             return "Endereço deve ter no máximo 250 caracteres";
 

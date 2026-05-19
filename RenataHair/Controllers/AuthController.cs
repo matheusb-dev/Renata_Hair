@@ -21,9 +21,6 @@ public class AuthController : ControllerBase
             ?? throw new InvalidOperationException("Jwt:Secret não configurado.");
     }
 
-    // =========================
-    // LOGIN
-    // =========================
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest login)
     {
@@ -80,9 +77,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    // =========================
-    // LOGOUT (BLACKLIST TOKEN)
-    // =========================
+  
     [Authorize]
     [HttpPost("logout")]
     public async Task<IActionResult> Logout()
@@ -104,9 +99,7 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Logout realizado com sucesso" });
     }
 
-    // =========================
-    // GERAR HASH SENHA
-    // =========================
+    
     [HttpGet("gerar-hash/{senha}")]
     public IActionResult GerarHash(string senha)
     {
@@ -114,9 +107,7 @@ public class AuthController : ControllerBase
         return Ok(new { hash });
     }
 
-    // =========================
-    // VALIDAR TOKEN (COM TEMPO)
-    // =========================
+
     [HttpPost("validar-token")]
     public IActionResult ValidarToken([FromBody] ValidarTokenRequest request)
     {

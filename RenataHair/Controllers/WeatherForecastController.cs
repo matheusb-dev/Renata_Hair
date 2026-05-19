@@ -19,7 +19,7 @@ namespace RenataHair.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IActionResult Get()
         {
-            // Pega o claim "exp" (expiração do token)
+           
             var expClaim = User.FindFirst(JwtRegisteredClaimNames.Exp)?.Value;
 
             DateTime? expiracao = null;

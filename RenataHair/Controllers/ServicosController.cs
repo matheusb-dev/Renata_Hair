@@ -14,7 +14,7 @@ public class ServicosController : ControllerBase
         _context = context;
     }
 
-    // POST: api/servicos
+
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] ServicoRequest request)
     {
@@ -51,7 +51,7 @@ public class ServicosController : ControllerBase
         }
     }
 
-    // GET: api/servicos
+
     [HttpGet]
     public async Task<IActionResult> Listar()
     {
@@ -77,7 +77,7 @@ public class ServicosController : ControllerBase
         }
     }
 
-    // GET: api/servicos/1
+
     [HttpGet("{id}")]
     public async Task<IActionResult> BuscarPorId(int id)
     {
@@ -103,7 +103,7 @@ public class ServicosController : ControllerBase
         }
     }
 
-    // PUT: api/servicos/1
+
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] ServicoRequest request)
     {
@@ -133,7 +133,7 @@ public class ServicosController : ControllerBase
         }
     }
 
-    // DELETE: api/servicos/1
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(int id)
     {
