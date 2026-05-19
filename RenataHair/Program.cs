@@ -8,12 +8,8 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddControllers();
 
-// =========================
-// SWAGGER COM JWT
-// =========================
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -42,9 +38,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// =========================
-// JWT CONFIG
-// =========================
 var jwtSecret = builder.Configuration["Jwt:Secret"]
     ?? "MinhaChaveSuperSecretaComPeloMenos32Chars";
 
@@ -64,54 +57,47 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
-
         ValidateIssuer = false,
         ValidateAudience = false,
-
         ClockSkew = TimeSpan.Zero
     };
 });
 
 builder.Services.AddAuthorization();
 
-// =========================
-// DB
-// =========================
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// =========================
-// PIPELINE
-// =========================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseStaticFiles();
-
-// 🔥 IMPORTANTE: ORDEM CORRETA
 app.UseAuthentication();
-app.UseAuthorization();
 
-// =========================    
-// BLACKLIST (APÓS AUTH)
-// =========================
 app.Use(async (context, next) =>
 {
     var authHeader = context.Request.Headers["Authorization"].ToString();
 
-    if (!string.IsNullOrEmpty(authHeader) &&
-        authHeader.StartsWith("Bearer "))
+    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
     {
         var token = authHeader.Replace("Bearer ", "");
         var db = context.RequestServices.GetRequiredService<AppDbContext>();
-
         var invalid = await db.TokensInvalidados.AnyAsync(x => x.Token == token);
 
         if (invalid)
@@ -128,6 +114,6 @@ app.Use(async (context, next) =>
     await next();
 });
 
+app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="RenataHair/RenataHair.csproj" />
+  <Folder Name="/src/">
+    <Project Path="RenataHair/RenataHair.csproj" />
+  </Folder>
+  <Project Path="RenataHair.Application/RenataHair.Application.csproj" Id="02c1373d-b2af-450f-8845-a97bdccb889a" />
+  <Project Path="RenataHair.Domain/RenataHair.Domain.csproj" Id="99f238b3-9a43-4ed6-b330-1c06ec30e0bc" />
+  <Project Path="RenataHair.Infrastructure/RenataHair.Infrastructure.csproj" Id="9f0dfe3b-5840-4368-88a8-1b728b9ef603" />
 </Solution>

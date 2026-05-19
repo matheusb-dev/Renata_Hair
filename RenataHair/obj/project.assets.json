@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "BCrypt.Net-Next/4.1.0": {
@@ -994,23 +994,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\admin\\.nuget\\packages\\": {},
+    "C:\\Users\\leiti\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\RenataHair.csproj",
+      "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT\\v4\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\RenataHair.csproj",
       "projectName": "RenataHair",
-      "projectPath": "E:\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\RenataHair.csproj",
-      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "E:\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\obj\\",
+      "projectPath": "C:\\Users\\leiti\\Desktop\\GIT\\v4\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\RenataHair.csproj",
+      "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\leiti\\Desktop\\GIT\\v4\\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\\RenataHair\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1023,6 +1023,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -1037,10 +1038,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "BCrypt.Net-Next": {
@@ -1083,7 +1085,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
