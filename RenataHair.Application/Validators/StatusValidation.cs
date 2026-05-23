@@ -1,4 +1,6 @@
-﻿public static class StatusValidation
+﻿namespace RenataHair.Application.Validators;
+
+public static class StatusValidation
 {
     private static readonly string[] StatusValidos = { "Ativo", "Inativo" };
 

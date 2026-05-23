@@ -1,4 +1,6 @@
-﻿public static class CpfValidation
+﻿namespace RenataHair.Application.Validators;
+
+public static class CpfValidation
 {
     public static string? Validar(string cpf)
     {

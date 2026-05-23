@@ -1,4 +1,10 @@
-﻿public static class PlanoValidation
+﻿
+using RenataHair.Application.DTOs;
+namespace RenataHair.Application.Validators;
+
+using RenataHair.Application.DTOs;
+
+public static class PlanoValidation
 {
     private static readonly string[] PlanosValidos = { "Nenhum", "Premium" };
     private static readonly string[] MensalidadesValidas = { "Mensal", "Anual" };

@@ -1,8 +1,13 @@
-﻿public static class CamposValidation
+﻿using RenataHair.Application.DTOs;
+
+namespace RenataHair.Application.Validators;
+
+public static class FuncionarioValidation
 {
-    public static string? Validar(ClienteRequest request)
+    private static readonly string[] TurnosValidos = { "Manhã", "Tarde", "Noite" };
+
+    public static string? Validar(FuncionarioRequest request)
     {
-       
         if (string.IsNullOrWhiteSpace(request.Nome))
             return "Nome é obrigatório";
 
@@ -12,14 +17,12 @@
         if (request.Nome.Trim().Length > 250)
             return "Nome deve ter no máximo 250 caracteres";
 
-        
         if (string.IsNullOrWhiteSpace(request.Cpf))
             return "CPF é obrigatório";
 
         if (request.Cpf.Any(char.IsLetter))
             return "CPF não pode conter letras";
 
-        
         if (string.IsNullOrWhiteSpace(request.Telefone))
             return "Telefone é obrigatório";
 
@@ -46,9 +49,20 @@
                 return "Email deve ter no máximo 250 caracteres";
         }
 
-     
         if (!string.IsNullOrWhiteSpace(request.Endereco) && request.Endereco.Trim().Length > 250)
             return "Endereço deve ter no máximo 250 caracteres";
+
+        if (string.IsNullOrWhiteSpace(request.Turno))
+            return "Turno é obrigatório";
+
+        if (!TurnosValidos.Contains(request.Turno.Trim(), StringComparer.OrdinalIgnoreCase))
+            return "Turno inválido. Use: Manhã, Tarde ou Noite";
+
+        if (request.HorasMensais.HasValue)
+        {
+            if (request.HorasMensais <= 0)
+                return "Horas mensais deve ser maior que zero";
+        }
 
         return null;
     }

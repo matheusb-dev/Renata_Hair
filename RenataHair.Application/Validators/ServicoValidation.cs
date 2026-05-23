@@ -1,4 +1,7 @@
-﻿using RenataHair.DTOs;
+﻿using RenataHair.Application.DTOs;
+
+
+namespace RenataHair.Application.Validators;
 
 public static class ServicoValidation
 {

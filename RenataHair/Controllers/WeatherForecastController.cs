@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using RenataHair.Infrastructure.Persistence;
+using RenataHair.Application.Validators;
 
 namespace RenataHair.Controllers
 {

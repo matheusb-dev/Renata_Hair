@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj": {}
+    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj": {
+    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj",
+        "projectUniqueName": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj",
         "projectName": "RenataHair.Application",
-        "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj",
-        "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Application\\obj\\",
+        "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Application\\RenataHair.Application.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,8 +33,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
-                "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj"
+              "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
+                "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj"
               }
             }
           }
@@ -349,20 +349,20 @@
         }
       }
     },
-    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
+    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
+        "projectUniqueName": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
         "projectName": "RenataHair.Domain",
-        "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
-        "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\obj\\",
+        "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

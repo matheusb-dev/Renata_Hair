@@ -10,3 +10,15 @@ C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair.Domain\obj\Debug\net10
 C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\refint\RenataHair.Domain.dll
 C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.pdb
 C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\ref\RenataHair.Domain.dll
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\bin\Debug\net10.0\RenataHair.Domain.deps.json
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\bin\Debug\net10.0\RenataHair.Domain.dll
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\bin\Debug\net10.0\RenataHair.Domain.pdb
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.AssemblyInfoInputs.cache
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.AssemblyInfo.cs
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.csproj.CoreCompileInputs.cache
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.sourcelink.json
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.dll
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\refint\RenataHair.Domain.dll
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\RenataHair.Domain.pdb
+D:\Users\admin\Desktop\Renata_Hair\RenataHair.Domain\obj\Debug\net10.0\ref\RenataHair.Domain.dll

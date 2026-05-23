@@ -1,4 +1,6 @@
-﻿public class ClienteRequest
+﻿namespace RenataHair.Application.DTOs;
+
+public class ClienteRequest
 {
     public string Nome { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;

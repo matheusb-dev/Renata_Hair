@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RenataHair.DTOs;
+using RenataHair.Application.DTOs;
 using RenataHair.Infrastructure.Persistence;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using RenataHair.Application.Validators;
 
 [ApiController]
 [Route("api/[controller]")]

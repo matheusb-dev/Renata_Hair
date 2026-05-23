@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RenataHair.Infrastructure.Persistence;
+using RenataHair.Application.Validators;
+using RenataHair.Application.DTOs;
 
 [ApiController]
 [Route("api/[controller]")]

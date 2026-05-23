@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RenataHair.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+403ab88e89ac4e281ae90b37b53ec6e89a544115")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31c616488d1aac356ebd442851d7187da6bd2f45")]
 [assembly: System.Reflection.AssemblyProductAttribute("RenataHair.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RenataHair.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

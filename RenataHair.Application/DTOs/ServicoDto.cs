@@ -1,4 +1,4 @@
-﻿namespace RenataHair.DTOs;
+﻿namespace RenataHair.Application.DTOs;
 
 public class ServicoRequest
 {
