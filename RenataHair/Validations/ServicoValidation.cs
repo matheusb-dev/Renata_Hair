@@ -1,4 +1,6 @@
-﻿public static class ServicoValidation
+﻿using RenataHair.DTOs;
+
+public static class ServicoValidation
 {
     public static string? Validar(ServicoRequest request)
     {

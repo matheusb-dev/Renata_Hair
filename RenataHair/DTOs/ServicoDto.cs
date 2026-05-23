@@ -1,4 +1,6 @@
-﻿public class ServicoRequest
+﻿namespace RenataHair.DTOs;
+
+public class ServicoRequest
 {
     public string Nome { get; set; } = string.Empty;
     public int Tempo { get; set; }

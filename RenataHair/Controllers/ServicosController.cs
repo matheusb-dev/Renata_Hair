@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RenataHair.DTOs;
+using RenataHair.Infrastructure.Persistence;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -14,7 +16,6 @@ public class ServicosController : ControllerBase
         _context = context;
     }
 
-
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] ServicoRequest request)
     {
@@ -25,7 +26,8 @@ public class ServicosController : ControllerBase
             if (erro != null)
                 return BadRequest(new { message = erro });
 
-            var servico = new Servico
+            // 🔥 FORÇA o tipo correto (evita conflito de Servico duplicado)
+            var servico = new RenataHair.Domain.Entities.Servico
             {
                 Nome = request.Nome.Trim(),
                 Tempo = request.Tempo,
@@ -36,21 +38,24 @@ public class ServicosController : ControllerBase
             _context.Servicos.Add(servico);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(BuscarPorId), new { id = servico.Id }, new ServicoResponse
-            {
-                Id = servico.Id,
-                Nome = servico.Nome,
-                Tempo = servico.Tempo,
-                Preco = servico.Preco,
-                CriadoEm = servico.CriadoEm
-            });
+            return CreatedAtAction(
+                nameof(BuscarPorId),
+                new { id = servico.Id },
+                new ServicoResponse
+                {
+                    Id = servico.Id,
+                    Nome = servico.Nome,
+                    Tempo = servico.Tempo,
+                    Preco = servico.Preco,
+                    CriadoEm = servico.CriadoEm
+                }
+            );
         }
         catch (Exception)
         {
             return StatusCode(500, new { message = "Erro ao processar serviço" });
         }
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Listar()
@@ -77,7 +82,6 @@ public class ServicosController : ControllerBase
         }
     }
 
-
     [HttpGet("{id}")]
     public async Task<IActionResult> BuscarPorId(int id)
     {
@@ -102,7 +106,6 @@ public class ServicosController : ControllerBase
             return StatusCode(500, new { message = "Erro ao buscar serviço" });
         }
     }
-
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] ServicoRequest request)
@@ -133,7 +136,6 @@ public class ServicosController : ControllerBase
         }
     }
 
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(int id)
     {
@@ -145,7 +147,6 @@ public class ServicosController : ControllerBase
                 return NotFound(new { message = "Serviço não encontrado" });
 
             _context.Servicos.Remove(servico);
-
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Serviço removido com sucesso" });

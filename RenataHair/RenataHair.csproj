@@ -10,9 +10,15 @@
 		<PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
 
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
 		<PackageReference Include="Scalar.AspNetCore" Version="1.2.45" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\RenataHair.Application\RenataHair.Application.csproj" />
+	  <ProjectReference Include="..\RenataHair.Domain\RenataHair.Domain.csproj" />
+	  <ProjectReference Include="..\RenataHair.Infrastructure\RenataHair.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

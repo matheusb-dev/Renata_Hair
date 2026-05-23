@@ -1,4 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RenataHair.Domain.Entities;
+using System.Reflection.Emit;
+
+namespace RenataHair.Infrastructure.Persistence;
 
 public class AppDbContext : DbContext
 {
@@ -6,12 +10,10 @@ public class AppDbContext : DbContext
 
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<TokenInvalidado> TokensInvalidados { get; set; }
-
     public DbSet<Cliente> Clientes { get; set; }
-
     public DbSet<Servico> Servicos { get; set; }
-
     public DbSet<Funcionario> Funcionarios { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>().ToTable("usuarios");
