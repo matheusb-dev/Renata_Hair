@@ -14,6 +14,8 @@ public class AppDbContext : DbContext
     public DbSet<Servico> Servicos { get; set; }
     public DbSet<Funcionario> Funcionarios { get; set; }
 
+    public DbSet<Agendamento> Agendamentos { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>().ToTable("usuarios");
@@ -21,5 +23,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Cliente>().ToTable("clientes");
         modelBuilder.Entity<Servico>().ToTable("servicos");
         modelBuilder.Entity<Funcionario>().ToTable("funcionarios");
+        modelBuilder.Entity<Agendamento>().ToTable("agendamentos");
     }
 }
