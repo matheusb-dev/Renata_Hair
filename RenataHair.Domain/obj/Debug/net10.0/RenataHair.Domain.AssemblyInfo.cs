@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RenataHair.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31c616488d1aac356ebd442851d7187da6bd2f45")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+001259a2aba8ead4ca4d960aa64d933164a40c2e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RenataHair.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RenataHair.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
