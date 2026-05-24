@@ -113,6 +113,20 @@ public class AgendamentosController : ControllerBase
             if (conflitoCliente)
                 return Conflict(new { message = "Cliente já possui agendamento neste horário" });
 
+            // CONFLITO: funcionário também é cliente em outro agendamento no mesmo horário
+            var conflitoFuncionarioComoCliente = await _agendamentoRepository.ExisteConflitoClienteAsync(
+                request.FuncionarioId, data, horaInicio, horaFim);
+
+            if (conflitoFuncionarioComoCliente)
+                return Conflict(new { message = "Funcionário já possui um agendamento como cliente neste horário" });
+
+            // CONFLITO: cliente também é funcionário em outro agendamento no mesmo horário
+            var conflitoClienteComoFuncionario = await _agendamentoRepository.ExisteConflitoAsync(
+                request.ClienteId, data, horaInicio, horaFim);
+
+            if (conflitoClienteComoFuncionario)
+                return Conflict(new { message = "Cliente já está como funcionário em um agendamento neste horário" });
+
             var agendamento = new Agendamento
             {
                 ClienteId = request.ClienteId,
@@ -274,7 +288,6 @@ public class AgendamentosController : ControllerBase
             // ── VERIFICAÇÃO DE HORAS MENSAIS ──────────────────────────
             if (!funcionario.Pj && funcionario.HorasMensais.HasValue)
             {
-                // passa o id atual para não contar ele mesmo na soma
                 var minutosJaTrabalhados = await _agendamentoRepository
                     .TotalMinutosTrabalhadosNoMesAsync(
                         request.FuncionarioId,
@@ -309,6 +322,20 @@ public class AgendamentosController : ControllerBase
 
             if (conflitoCliente)
                 return Conflict(new { message = "Cliente já possui agendamento neste horário" });
+
+            // CONFLITO: funcionário também é cliente em outro agendamento no mesmo horário
+            var conflitoFuncionarioComoCliente = await _agendamentoRepository.ExisteConflitoClienteAsync(
+                request.FuncionarioId, data, horaInicio, horaFim, id);
+
+            if (conflitoFuncionarioComoCliente)
+                return Conflict(new { message = "Funcionário já possui um agendamento como cliente neste horário" });
+
+            // CONFLITO: cliente também é funcionário em outro agendamento no mesmo horário
+            var conflitoClienteComoFuncionario = await _agendamentoRepository.ExisteConflitoAsync(
+                request.ClienteId, data, horaInicio, horaFim, id);
+
+            if (conflitoClienteComoFuncionario)
+                return Conflict(new { message = "Cliente já está como funcionário em um agendamento neste horário" });
 
             agendamento.ClienteId = request.ClienteId;
             agendamento.FuncionarioId = request.FuncionarioId;

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj": {}
+    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
+    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
         "projectName": "RenataHair.Domain",
-        "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\obj\\",
+        "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj",
+        "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -345,20 +345,20 @@
         }
       }
     },
-    "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj": {
+    "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj",
         "projectName": "RenataHair.Infrastructure",
-        "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Infrastructure\\RenataHair.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\leiti\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\leiti\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -374,8 +374,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
-                "projectPath": "D:\\Users\\admin\\Desktop\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj"
+              "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj": {
+                "projectPath": "C:\\Users\\leiti\\Desktop\\GIT - Copia\\Renata_Hair\\RenataHair.Domain\\RenataHair.Domain.csproj"
               }
             }
           }
