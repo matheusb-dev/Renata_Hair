@@ -16,32 +16,50 @@ public class FuncionarioRepository : IFuncionarioRepository
 
     public async Task<Funcionario?> BuscarPorIdAsync(int id)
     {
-        return await _context.Funcionarios.FindAsync(id);
+        return await _context.Funcionarios
+            .Include(f => f.Servicos)
+            .FirstOrDefaultAsync(f => f.Id == id);
     }
 
     public async Task<Funcionario?> BuscarPorCpfAsync(string cpf)
     {
         return await _context.Funcionarios
+            .Include(f => f.Servicos)
             .FirstOrDefaultAsync(f => f.Cpf == cpf);
     }
 
     public async Task<List<Funcionario>> ListarTodosAsync()
     {
-        return await _context.Funcionarios.ToListAsync();
+        return await _context.Funcionarios
+            .Include(f => f.Servicos)
+            .ToListAsync();
     }
 
-    public async Task<List<Funcionario>> ListarAsync(string? nome, string? cpf, string? turno)
+    public async Task<List<Funcionario>> ListarAsync(
+        string? nome,
+        string? cpf,
+        string? turno)
     {
-        var query = _context.Funcionarios.AsQueryable();
+        var query = _context.Funcionarios
+            .Include(f => f.Servicos)
+            .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(nome))
-            query = query.Where(f => f.Nome.ToLower().Contains(nome.ToLower()));
+        {
+            query = query.Where(f =>
+                f.Nome.ToLower().Contains(nome.ToLower()));
+        }
 
         if (!string.IsNullOrWhiteSpace(cpf))
+        {
             query = query.Where(f => f.Cpf == cpf);
+        }
 
         if (!string.IsNullOrWhiteSpace(turno))
-            query = query.Where(f => f.Turno.ToLower() == turno.ToLower());
+        {
+            query = query.Where(f =>
+                f.Turno.ToLower() == turno.ToLower());
+        }
 
         return await query.ToListAsync();
     }
@@ -49,25 +67,31 @@ public class FuncionarioRepository : IFuncionarioRepository
     public async Task AdicionarAsync(Funcionario funcionario)
     {
         _context.Funcionarios.Add(funcionario);
+
         await _context.SaveChangesAsync();
     }
 
     public async Task AtualizarAsync(Funcionario funcionario)
     {
         _context.Funcionarios.Update(funcionario);
+
         await _context.SaveChangesAsync();
     }
 
     public async Task RemoverAsync(Funcionario funcionario)
     {
         _context.Funcionarios.Remove(funcionario);
+
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> CpfExisteAsync(string cpf, int? ignorarId = null)
+    public async Task<bool> CpfExisteAsync(
+        string cpf,
+        int? ignorarId = null)
     {
         return await _context.Funcionarios
-            .AnyAsync(f => f.Cpf == cpf &&
-                     (ignorarId == null || f.Id != ignorarId));
+            .AnyAsync(f =>
+                f.Cpf == cpf &&
+                (ignorarId == null || f.Id != ignorarId));
     }
 }

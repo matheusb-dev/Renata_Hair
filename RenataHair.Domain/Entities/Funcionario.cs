@@ -37,9 +37,14 @@ public class Funcionario
     [Column("horas_mensais")]
     public int? HorasMensais { get; set; }
 
+    [Column("horas_disponiveis")]
+    public int? HorasDisponiveis { get; set; }
+
     [Column("pj")]
     public bool Pj { get; set; } = false;
 
     [Column("criado_em")]
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
+
+    public List<Servico> Servicos { get; set; } = new();
 }

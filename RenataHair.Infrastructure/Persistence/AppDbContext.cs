@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RenataHair.Domain.Entities;
-using System.Reflection.Emit;
 
 namespace RenataHair.Infrastructure.Persistence;
 
@@ -13,16 +12,48 @@ public class AppDbContext : DbContext
     public DbSet<Cliente> Clientes { get; set; }
     public DbSet<Servico> Servicos { get; set; }
     public DbSet<Funcionario> Funcionarios { get; set; }
-
     public DbSet<Agendamento> Agendamentos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>().ToTable("usuarios");
-        modelBuilder.Entity<TokenInvalidado>().ToTable("tokens_invalidados");
-        modelBuilder.Entity<Cliente>().ToTable("clientes");
-        modelBuilder.Entity<Servico>().ToTable("servicos");
-        modelBuilder.Entity<Funcionario>().ToTable("funcionarios");
-        modelBuilder.Entity<Agendamento>().ToTable("agendamentos");
+
+        modelBuilder.Entity<TokenInvalidado>()
+            .ToTable("tokens_invalidados");
+
+        modelBuilder.Entity<Cliente>()
+            .ToTable("clientes");
+
+        modelBuilder.Entity<Servico>()
+            .ToTable("servicos");
+
+        modelBuilder.Entity<Funcionario>()
+            .ToTable("funcionarios");
+
+        modelBuilder.Entity<Agendamento>()
+            .ToTable("agendamentos");
+
+        modelBuilder.Entity<Funcionario>()
+            .HasMany(f => f.Servicos)
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "funcionario_servicos",
+
+                j => j
+                    .HasOne<Servico>()
+                    .WithMany()
+                    .HasForeignKey("servico_id"),
+
+                j => j
+                    .HasOne<Funcionario>()
+                    .WithMany()
+                    .HasForeignKey("funcionario_id"),
+
+                j =>
+                {
+                    j.HasKey("funcionario_id", "servico_id");
+
+                    j.ToTable("funcionario_servicos");
+                });
     }
 }

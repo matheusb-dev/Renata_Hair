@@ -5,7 +5,6 @@ using RenataHair.Infrastructure.Persistence;
 using RenataHair.Application.Validators;
 using RenataHair.Application.DTOs;
 
-
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -19,130 +18,85 @@ public class FuncionariosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Criar(
-        [FromBody] FuncionarioRequest request)
+    public async Task<IActionResult> Criar([FromBody] FuncionarioRequest request)
     {
         try
         {
             var erro = FuncionarioValidation.Validar(request);
-
             if (erro != null)
-            {
-                return BadRequest(new
-                {
-                    message = erro
-                });
-            }
+                return BadRequest(new { message = erro });
 
-            var cpf = new string(
-                request.Cpf
-                    .Where(char.IsDigit)
-                    .ToArray());
+            var cpf = new string(request.Cpf.Where(char.IsDigit).ToArray());
 
             var erroCpf = CpfValidation.Validar(cpf);
-
             if (erroCpf != null)
-            {
-                return BadRequest(new
-                {
-                    message = erroCpf
-                });
-            }
+                return BadRequest(new { message = erroCpf });
 
-            var cpfExiste = await _context.Funcionarios
-                .AnyAsync(f => f.Cpf == cpf);
-
+            var cpfExiste = await _context.Funcionarios.AnyAsync(f => f.Cpf == cpf);
             if (cpfExiste)
+                return Conflict(new { message = "CPF já cadastrado" });
+
+            var servicos = await _context.Servicos
+                .Where(s => request.ServicosIds.Contains(s.Id))
+                .ToListAsync();
+
+            var funcionario = new RenataHair.Domain.Entities.Funcionario
             {
-                return Conflict(new
-                {
-                    message = "CPF já cadastrado"
-                });
-            }
-
-            var funcionario =
-                new RenataHair.Domain.Entities.Funcionario
-                {
-                    Nome = request.Nome.Trim(),
-
-                    Cpf = cpf,
-
-                    Telefone = new string(
-                        request.Telefone
-                            .Where(char.IsDigit)
-                            .ToArray()),
-
-                    Email = string.IsNullOrWhiteSpace(
-                        request.Email)
-                        ? null
-                        : request.Email.Trim(),
-
-                    Endereco = string.IsNullOrWhiteSpace(
-                        request.Endereco)
-                        ? null
-                        : request.Endereco.Trim(),
-
-                    Turno = request.Turno.Trim(),
-
-                    HorasMensais = request.HorasMensais,
-
-                    Pj = request.Pj,
-
-                    CriadoEm = DateTime.UtcNow
-                };
+                Nome = request.Nome.Trim(),
+                Cpf = cpf,
+                Telefone = new string(request.Telefone.Where(char.IsDigit).ToArray()),
+                Email = string.IsNullOrWhiteSpace(request.Email) ? null : request.Email.Trim(),
+                Endereco = string.IsNullOrWhiteSpace(request.Endereco) ? null : request.Endereco.Trim(),
+                Turno = request.Turno.Trim(),
+                HorasMensais = request.HorasMensais,
+                HorasDisponiveis = request.HorasMensais,
+                Pj = request.Pj,
+                Servicos = servicos,
+                CriadoEm = DateTime.UtcNow
+            };
 
             _context.Funcionarios.Add(funcionario);
 
             if (request.CadastrarComoCliente)
             {
-                var clienteExiste = await _context.Clientes
-                    .AnyAsync(c => c.Cpf == cpf);
-
+                var clienteExiste = await _context.Clientes.AnyAsync(c => c.Cpf == cpf);
                 if (!clienteExiste)
                 {
-                    var cliente =
-                        new RenataHair.Domain.Entities.Cliente
-                        {
-                            Nome = funcionario.Nome,
-                            Cpf = funcionario.Cpf,
-                            Telefone = funcionario.Telefone,
-                            Email = funcionario.Email,
-                            Plano = "Nenhum",
-                            Status = "Ativo",
-                            CriadoEm = DateTime.UtcNow
-                        };
-
+                    var cliente = new RenataHair.Domain.Entities.Cliente
+                    {
+                        Nome = funcionario.Nome,
+                        Cpf = funcionario.Cpf,
+                        Telefone = funcionario.Telefone,
+                        Email = funcionario.Email,
+                        Plano = "Nenhum",
+                        Status = "Ativo",
+                        CriadoEm = DateTime.UtcNow
+                    };
                     _context.Clientes.Add(cliente);
                 }
             }
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(
-                nameof(BuscarPorId),
-
-                new { id = funcionario.Id },
-
-                new FuncionarioResponse
-                {
-                    Id = funcionario.Id,
-                    Nome = funcionario.Nome,
-                    Cpf = funcionario.Cpf,
-                    Telefone = funcionario.Telefone,
-                    Email = funcionario.Email,
-                    Endereco = funcionario.Endereco,
-                    Turno = funcionario.Turno,
-                    HorasMensais = funcionario.HorasMensais,
-                    Pj = funcionario.Pj,
-                    CriadoEm = funcionario.CriadoEm
-                });
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new
+            return CreatedAtAction(nameof(BuscarPorId), new { id = funcionario.Id }, new FuncionarioResponse
             {
-                message = "Erro ao processar funcionário"
+                Id = funcionario.Id,
+                Nome = funcionario.Nome,
+                Cpf = funcionario.Cpf,
+                Telefone = funcionario.Telefone,
+                Email = funcionario.Email,
+                Endereco = funcionario.Endereco,
+                Turno = funcionario.Turno,
+                HorasMensais = funcionario.HorasMensais,
+                HorasDisponiveis = funcionario.HorasDisponiveis,
+                Pj = funcionario.Pj,
+                Servicos = funcionario.Servicos.Select(s => s.Nome).ToList(),
+                CriadoEm = funcionario.CriadoEm
             });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 
@@ -152,29 +106,30 @@ public class FuncionariosController : ControllerBase
         try
         {
             var funcionarios = await _context.Funcionarios
-                .Select(f => new FuncionarioResponse
-                {
-                    Id = f.Id,
-                    Nome = f.Nome,
-                    Cpf = f.Cpf,
-                    Telefone = f.Telefone,
-                    Email = f.Email,
-                    Endereco = f.Endereco,
-                    Turno = f.Turno,
-                    HorasMensais = f.HorasMensais,
-                    Pj = f.Pj,
-                    CriadoEm = f.CriadoEm
-                })
+                .Include(f => f.Servicos)
                 .ToListAsync();
 
-            return Ok(funcionarios);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new
+            var resultado = funcionarios.Select(f => new FuncionarioResponse
             {
-                message = "Erro ao processar funcionário"
-            });
+                Id = f.Id,
+                Nome = f.Nome,
+                Cpf = f.Cpf,
+                Telefone = f.Telefone,
+                Email = f.Email,
+                Endereco = f.Endereco,
+                Turno = f.Turno,
+                HorasMensais = f.HorasMensais,
+                HorasDisponiveis = f.HorasDisponiveis,
+                Pj = f.Pj,
+                Servicos = f.Servicos.Select(s => s.Nome).ToList(),
+                CriadoEm = f.CriadoEm
+            }).ToList();
+
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 
@@ -186,55 +141,45 @@ public class FuncionariosController : ControllerBase
     {
         try
         {
-            var query = _context.Funcionarios.AsQueryable();
+            var query = _context.Funcionarios
+                .Include(f => f.Servicos)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(nome))
-            {
-                query = query.Where(f =>
-                    f.Nome.ToLower()
-                        .Contains(nome.ToLower()));
-            }
+                query = query.Where(f => f.Nome.ToLower().Contains(nome.ToLower()));
 
             if (!string.IsNullOrWhiteSpace(cpf))
             {
-                var cpfFiltro = new string(
-                    cpf.Where(char.IsDigit).ToArray());
-
-                query = query.Where(f =>
-                    f.Cpf == cpfFiltro);
+                var cpfFiltro = new string(cpf.Where(char.IsDigit).ToArray());
+                query = query.Where(f => f.Cpf == cpfFiltro);
             }
 
             if (!string.IsNullOrWhiteSpace(turno))
+                query = query.Where(f => f.Turno.ToLower() == turno.ToLower());
+
+            var funcionarios = await query.ToListAsync();
+
+            var resultado = funcionarios.Select(f => new FuncionarioResponse
             {
-                query = query.Where(f =>
-                    f.Turno.ToLower() ==
-                    turno.ToLower());
-            }
+                Id = f.Id,
+                Nome = f.Nome,
+                Cpf = f.Cpf,
+                Telefone = f.Telefone,
+                Email = f.Email,
+                Endereco = f.Endereco,
+                Turno = f.Turno,
+                HorasMensais = f.HorasMensais,
+                HorasDisponiveis = f.HorasDisponiveis,
+                Pj = f.Pj,
+                Servicos = f.Servicos.Select(s => s.Nome).ToList(),
+                CriadoEm = f.CriadoEm
+            }).ToList();
 
-            var funcionarios = await query
-                .Select(f => new FuncionarioResponse
-                {
-                    Id = f.Id,
-                    Nome = f.Nome,
-                    Cpf = f.Cpf,
-                    Telefone = f.Telefone,
-                    Email = f.Email,
-                    Endereco = f.Endereco,
-                    Turno = f.Turno,
-                    HorasMensais = f.HorasMensais,
-                    Pj = f.Pj,
-                    CriadoEm = f.CriadoEm
-                })
-                .ToListAsync();
-
-            return Ok(funcionarios);
+            return Ok(resultado);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                message = "Erro ao processar funcionário"
-            });
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 
@@ -243,16 +188,12 @@ public class FuncionariosController : ControllerBase
     {
         try
         {
-            var funcionario =
-                await _context.Funcionarios.FindAsync(id);
+            var funcionario = await _context.Funcionarios
+                .Include(f => f.Servicos)
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if (funcionario == null)
-            {
-                return NotFound(new
-                {
-                    message = "Funcionário não encontrado"
-                });
-            }
+                return NotFound(new { message = "Funcionário não encontrado" });
 
             return Ok(new FuncionarioResponse
             {
@@ -264,115 +205,65 @@ public class FuncionariosController : ControllerBase
                 Endereco = funcionario.Endereco,
                 Turno = funcionario.Turno,
                 HorasMensais = funcionario.HorasMensais,
+                HorasDisponiveis = funcionario.HorasDisponiveis,
                 Pj = funcionario.Pj,
+                Servicos = funcionario.Servicos.Select(s => s.Nome).ToList(),
                 CriadoEm = funcionario.CriadoEm
             });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                message = "Erro ao processar funcionário"
-            });
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Atualizar(
-        int id,
-        [FromBody] FuncionarioRequest request)
+    public async Task<IActionResult> Atualizar(int id, [FromBody] FuncionarioRequest request)
     {
         try
         {
-            var funcionario =
-                await _context.Funcionarios.FindAsync(id);
+            var funcionario = await _context.Funcionarios
+                .Include(f => f.Servicos)
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if (funcionario == null)
-            {
-                return NotFound(new
-                {
-                    message = "Funcionário não encontrado"
-                });
-            }
+                return NotFound(new { message = "Funcionário não encontrado" });
 
             var erro = FuncionarioValidation.Validar(request);
-
             if (erro != null)
-            {
-                return BadRequest(new
-                {
-                    message = erro
-                });
-            }
+                return BadRequest(new { message = erro });
 
-            var cpf = new string(
-                request.Cpf
-                    .Where(char.IsDigit)
-                    .ToArray());
+            var cpf = new string(request.Cpf.Where(char.IsDigit).ToArray());
 
             var erroCpf = CpfValidation.Validar(cpf);
-
             if (erroCpf != null)
-            {
-                return BadRequest(new
-                {
-                    message = erroCpf
-                });
-            }
+                return BadRequest(new { message = erroCpf });
 
-            var cpfExiste = await _context.Funcionarios
-                .AnyAsync(f =>
-                    f.Cpf == cpf &&
-                    f.Id != id);
-
+            var cpfExiste = await _context.Funcionarios.AnyAsync(f => f.Cpf == cpf && f.Id != id);
             if (cpfExiste)
-            {
-                return Conflict(new
-                {
-                    message = "CPF já cadastrado"
-                });
-            }
+                return Conflict(new { message = "CPF já cadastrado" });
+
+            var servicos = await _context.Servicos
+                .Where(s => request.ServicosIds.Contains(s.Id))
+                .ToListAsync();
 
             funcionario.Nome = request.Nome.Trim();
-
             funcionario.Cpf = cpf;
-
-            funcionario.Telefone = new string(
-                request.Telefone
-                    .Where(char.IsDigit)
-                    .ToArray());
-
-            funcionario.Email =
-                string.IsNullOrWhiteSpace(request.Email)
-                ? null
-                : request.Email.Trim();
-
-            funcionario.Endereco =
-                string.IsNullOrWhiteSpace(request.Endereco)
-                ? null
-                : request.Endereco.Trim();
-
+            funcionario.Telefone = new string(request.Telefone.Where(char.IsDigit).ToArray());
+            funcionario.Email = string.IsNullOrWhiteSpace(request.Email) ? null : request.Email.Trim();
+            funcionario.Endereco = string.IsNullOrWhiteSpace(request.Endereco) ? null : request.Endereco.Trim();
             funcionario.Turno = request.Turno.Trim();
-
-            funcionario.HorasMensais =
-                request.HorasMensais;
-
+            funcionario.HorasMensais = request.HorasMensais;
             funcionario.Pj = request.Pj;
+            funcionario.Servicos = servicos;
 
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                message =
-                    "Funcionário atualizado com sucesso"
-            });
+            return Ok(new { message = "Funcionário atualizado com sucesso" });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                message = "Erro ao processar funcionário"
-            });
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 
@@ -381,33 +272,18 @@ public class FuncionariosController : ControllerBase
     {
         try
         {
-            var funcionario =
-                await _context.Funcionarios.FindAsync(id);
-
+            var funcionario = await _context.Funcionarios.FindAsync(id);
             if (funcionario == null)
-            {
-                return NotFound(new
-                {
-                    message = "Funcionário não encontrado"
-                });
-            }
+                return NotFound(new { message = "Funcionário não encontrado" });
 
             _context.Funcionarios.Remove(funcionario);
-
             await _context.SaveChangesAsync();
 
-            return Ok(new
-            {
-                message =
-                    "Funcionário removido com sucesso"
-            });
+            return Ok(new { message = "Funcionário removido com sucesso" });
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, new
-            {
-                message = "Erro ao processar funcionário"
-            });
+            return StatusCode(500, new { message = ex.Message, inner = ex.InnerException?.Message });
         }
     }
 }
