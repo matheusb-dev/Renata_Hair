@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RenataHair.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee2cf5e8e9080bc012a66d5fd0e4b318df07db2e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+049f1ab9fd92124e53bc42814cf1bf7b50a62bea")]
 [assembly: System.Reflection.AssemblyProductAttribute("RenataHair.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RenataHair.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

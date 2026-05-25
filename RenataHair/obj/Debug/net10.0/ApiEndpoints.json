@@ -49,7 +49,7 @@
   },
   {
     "ContainingType": "AgendamentosController",
-    "Method": "Atualizar",
+    "Method": "Editar",
     "RelativePath": "api/Agendamentos/{id}",
     "HttpMethod": "PUT",
     "IsController": true,

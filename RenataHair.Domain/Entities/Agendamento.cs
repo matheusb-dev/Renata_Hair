@@ -16,9 +16,6 @@ public class Agendamento
     [Column("funcionario_id")]
     public int FuncionarioId { get; set; }
 
-    [Column("servico_id")]
-    public int ServicoId { get; set; }
-
     [Column("data")]
     public DateOnly Data { get; set; }
 
@@ -35,6 +32,8 @@ public class Agendamento
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
 
     public Cliente? Cliente { get; set; }
+
     public Funcionario? Funcionario { get; set; }
-    public Servico? Servico { get; set; }
+
+    public List<AgendamentoServico> Servicos { get; set; } = new();
 }

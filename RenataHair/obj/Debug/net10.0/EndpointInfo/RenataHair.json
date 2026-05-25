@@ -742,9 +742,13 @@
             "type": "integer",
             "format": "int32"
           },
-          "servicoId": {
-            "type": "integer",
-            "format": "int32"
+          "servicosIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           },
           "data": {
             "type": "string",

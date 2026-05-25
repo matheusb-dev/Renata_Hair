@@ -17,18 +17,21 @@ namespace RenataHair.Infrastructure.Repositories
         public async Task AdicionarAsync(Agendamento agendamento)
         {
             await _context.Agendamentos.AddAsync(agendamento);
+
             await _context.SaveChangesAsync();
         }
 
         public async Task AtualizarAsync(Agendamento agendamento)
         {
             _context.Agendamentos.Update(agendamento);
+
             await _context.SaveChangesAsync();
         }
 
         public async Task RemoverAsync(Agendamento agendamento)
         {
             _context.Agendamentos.Remove(agendamento);
+
             await _context.SaveChangesAsync();
         }
 
@@ -37,7 +40,10 @@ namespace RenataHair.Infrastructure.Repositories
             return await _context.Agendamentos
                 .Include(a => a.Cliente)
                 .Include(a => a.Funcionario)
-                .Include(a => a.Servico)
+
+                .Include(a => a.Servicos)
+                .ThenInclude(s => s.Servico)
+
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -45,10 +51,16 @@ namespace RenataHair.Infrastructure.Repositories
         {
             return await _context.Agendamentos
                 .Include(a => a.Cliente)
+
                 .Include(a => a.Funcionario)
-                .Include(a => a.Servico)
+
+                .Include(a => a.Servicos)
+                .ThenInclude(s => s.Servico)
+
                 .Where(a => a.Data == data)
+
                 .OrderBy(a => a.HoraInicio)
+
                 .ToListAsync();
         }
 
@@ -91,15 +103,27 @@ namespace RenataHair.Infrastructure.Repositories
             int? ignorarAgendamentoId = null)
         {
             var agendamentos = await _context.Agendamentos
-                .Where(a => a.FuncionarioId == funcionarioId
-                         && a.Data.Year == ano
-                         && a.Data.Month == mes
-                         && (ignorarAgendamentoId == null || a.Id != ignorarAgendamentoId))
-                .Select(a => new { a.HoraInicio, a.HoraFim })
+                .Where(a =>
+                    a.FuncionarioId == funcionarioId &&
+                    a.Data.Year == ano &&
+                    a.Data.Month == mes &&
+                    (ignorarAgendamentoId == null ||
+                     a.Id != ignorarAgendamentoId))
+
+                .Select(a => new
+                {
+                    a.HoraInicio,
+                    a.HoraFim
+                })
+
                 .ToListAsync();
 
             return agendamentos.Sum(a =>
-                (int)(a.HoraFim.ToTimeSpan() - a.HoraInicio.ToTimeSpan()).TotalMinutes);
+                (int)
+                (
+                    a.HoraFim.ToTimeSpan() -
+                    a.HoraInicio.ToTimeSpan()
+                ).TotalMinutes);
         }
     }
 }

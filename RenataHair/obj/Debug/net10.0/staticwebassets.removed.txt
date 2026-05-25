@@ -1,4 +1,0 @@
-C:\Users\leiti\Desktop\salvação\Renata_Hair\RenataHair\wwwroot\TelaLogin\login.html
-C:\Users\leiti\Desktop\salvação\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\auth.js
-C:\Users\leiti\Desktop\salvação\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\script.js
-C:\Users\leiti\Desktop\salvação\Renata_Hair\RenataHair\wwwroot\TelaLogin\css\style.css

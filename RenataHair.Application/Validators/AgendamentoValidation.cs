@@ -12,8 +12,11 @@ public static class AgendamentoValidation
         if (request.FuncionarioId <= 0)
             return "Funcionário é obrigatório";
 
-        if (request.ServicoId <= 0)
-            return "Serviço é obrigatório";
+        if (request.ServicosIds == null || !request.ServicosIds.Any())
+            return "Pelo menos um serviço deve ser informado";
+
+        if (request.ServicosIds.Any(s => s <= 0))
+            return "Existem serviços inválidos";
 
         if (string.IsNullOrWhiteSpace(request.Data))
             return "Data é obrigatória";
@@ -34,6 +37,7 @@ public static class AgendamentoValidation
         if (data == DateOnly.FromDateTime(DateTime.Today))
         {
             var horaAtual = TimeOnly.FromDateTime(DateTime.Now.ToLocalTime());
+
             if (horaInicio < horaAtual)
                 return "Não é permitido agendar em horários que já passaram";
         }
