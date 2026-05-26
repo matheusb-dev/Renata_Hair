@@ -258,6 +258,12 @@ public class ClientesController : ControllerBase
             if (cliente == null)
                 return NotFound(new { message = "Cliente não encontrado" });
 
+            var possuiAgendamentos = await _context.Agendamentos
+                .AnyAsync(a => a.ClienteId == id);
+
+            if (possuiAgendamentos)
+                return Conflict(new { message = "Não é possível remover o cliente pois ele possui agendamentos vinculados" });
+
             _context.Clientes.Remove(cliente);
             await _context.SaveChangesAsync();
 

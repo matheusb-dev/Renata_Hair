@@ -21,6 +21,8 @@ public class AppDbContext : DbContext
 
     public DbSet<AgendamentoServico> AgendamentoServicos { get; set; }
 
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>()

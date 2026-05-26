@@ -276,6 +276,12 @@ public class FuncionariosController : ControllerBase
             if (funcionario == null)
                 return NotFound(new { message = "Funcionário não encontrado" });
 
+            var possuiAgendamentos = await _context.Agendamentos
+                .AnyAsync(a => a.FuncionarioId == id);
+
+            if (possuiAgendamentos)
+                return Conflict(new { message = "Não é possível remover o funcionário pois ele possui agendamentos vinculados" });
+
             _context.Funcionarios.Remove(funcionario);
             await _context.SaveChangesAsync();
 
