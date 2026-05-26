@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using RenataHair.Application.DTOs;
 using RenataHair.Infrastructure.Persistence;
 using RenataHair.Application.Validators;
-using RenataHair.Application.DTOs;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -28,7 +27,6 @@ public class ServicosController : ControllerBase
             if (erro != null)
                 return BadRequest(new { message = erro });
 
-            // 🔥 FORÇA o tipo correto (evita conflito de Servico duplicado)
             var servico = new RenataHair.Domain.Entities.Servico
             {
                 Nome = request.Nome.Trim(),
@@ -147,6 +145,13 @@ public class ServicosController : ControllerBase
 
             if (servico == null)
                 return NotFound(new { message = "Serviço não encontrado" });
+
+            // ✅ Validação: bloqueia se o serviço estiver vinculado a algum agendamento
+            var possuiAgendamentos = await _context.AgendamentoServicos
+                .AnyAsync(a => a.ServicoId == id);
+
+            if (possuiAgendamentos)
+                return Conflict(new { message = "Não é possível remover o serviço pois ele possui agendamentos vinculados" });
 
             _context.Servicos.Remove(servico);
             await _context.SaveChangesAsync();

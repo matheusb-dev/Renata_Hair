@@ -45,6 +45,13 @@ public class AgendamentosController : ControllerBase
             if (cliente == null)
                 return NotFound(new { message = "Cliente não encontrado" });
 
+            // ✅ Bloqueia agendamento com cliente inativo
+            if (cliente.Status != "Ativo")
+                return UnprocessableEntity(new
+                {
+                    message = "Não é possível agendar com um cliente inativo"
+                });
+
             var funcionario =
                 await _funcionarioRepository.BuscarPorIdAsync(request.FuncionarioId);
 
@@ -66,66 +73,46 @@ public class AgendamentosController : ControllerBase
                     "manhã" =>
                         horaInicio >= new TimeOnly(6, 0) &&
                         horaInicio < new TimeOnly(12, 0),
-
                     "tarde" =>
                         horaInicio >= new TimeOnly(12, 0) &&
                         horaInicio < new TimeOnly(18, 0),
-
                     "noite" =>
                         horaInicio >= new TimeOnly(18, 0) &&
                         horaInicio <= new TimeOnly(23, 59),
-
                     _ => false
                 };
 
                 if (!turnoValido)
-                {
                     return BadRequest(new
                     {
-                        message =
-                            $"Funcionário só pode ser agendado no turno {funcionario.Turno}"
+                        message = $"Funcionário só pode ser agendado no turno {funcionario.Turno}"
                     });
-                }
             }
 
-            // BUSCA TODOS OS SERVIÇOS
             var servicos = new List<Servico>();
 
             foreach (var servicoId in request.ServicosIds)
             {
-                var servico =
-                    await _servicoRepository.BuscarPorIdAsync(servicoId);
+                var servico = await _servicoRepository.BuscarPorIdAsync(servicoId);
 
                 if (servico == null)
-                {
-                    return NotFound(new
-                    {
-                        message = $"Serviço {servicoId} não encontrado"
-                    });
-                }
+                    return NotFound(new { message = $"Serviço {servicoId} não encontrado" });
 
-                // VALIDAÇÃO SERVIÇO DO FUNCIONÁRIO
                 var funcionarioRealizaServico =
                     funcionario.Servicos.Any(s => s.Id == servicoId);
 
                 if (!funcionarioRealizaServico)
-                {
                     return BadRequest(new
                     {
-                        message =
-                            $"Funcionário não realiza o serviço {servico.Nome}"
+                        message = $"Funcionário não realiza o serviço {servico.Nome}"
                     });
-                }
 
                 servicos.Add(servico);
             }
 
             var tempoTotal = servicos.Sum(s => s.Tempo);
-
             var valorTotal = servicos.Sum(s => s.Preco);
-
             var data = DateOnly.Parse(request.Data);
-
             var horaFim = horaInicio.AddMinutes(tempoTotal);
 
             // HORAS MENSAIS
@@ -138,13 +125,11 @@ public class AgendamentosController : ControllerBase
                             data.Year,
                             data.Month);
 
-                var limiteMinutos =
-                    funcionario.HorasMensais.Value * 60;
+                var limiteMinutos = funcionario.HorasMensais.Value * 60;
 
                 if (minutosJaTrabalhados + tempoTotal > limiteMinutos)
                 {
-                    var horasRestantes =
-                        (limiteMinutos - minutosJaTrabalhados) / 60m;
+                    var horasRestantes = (limiteMinutos - minutosJaTrabalhados) / 60m;
 
                     return UnprocessableEntity(new
                     {
@@ -158,70 +143,40 @@ public class AgendamentosController : ControllerBase
             // CONFLITO FUNCIONÁRIO
             var conflitoFuncionario =
                 await _agendamentoRepository.ExisteConflitoAsync(
-                    request.FuncionarioId,
-                    data,
-                    horaInicio,
-                    horaFim);
+                    request.FuncionarioId, data, horaInicio, horaFim);
 
             if (conflitoFuncionario)
-            {
-                return Conflict(new
-                {
-                    message =
-                        "Horário indisponível para este funcionário"
-                });
-            }
+                return Conflict(new { message = "Horário indisponível para este funcionário" });
 
             // CONFLITO CLIENTE
             var conflitoCliente =
                 await _agendamentoRepository.ExisteConflitoClienteAsync(
-                    request.ClienteId,
-                    data,
-                    horaInicio,
-                    horaFim);
+                    request.ClienteId, data, horaInicio, horaFim);
 
             if (conflitoCliente)
-            {
-                return Conflict(new
-                {
-                    message =
-                        "Cliente já possui agendamento neste horário"
-                });
-            }
+                return Conflict(new { message = "Cliente já possui agendamento neste horário" });
 
             // FUNCIONÁRIO COMO CLIENTE
             var conflitoFuncionarioComoCliente =
                 await _agendamentoRepository.ExisteConflitoClienteAsync(
-                    request.FuncionarioId,
-                    data,
-                    horaInicio,
-                    horaFim);
+                    request.FuncionarioId, data, horaInicio, horaFim);
 
             if (conflitoFuncionarioComoCliente)
-            {
                 return Conflict(new
                 {
-                    message =
-                        "Funcionário já possui um agendamento como cliente neste horário"
+                    message = "Funcionário já possui um agendamento como cliente neste horário"
                 });
-            }
 
             // CLIENTE COMO FUNCIONÁRIO
             var conflitoClienteComoFuncionario =
                 await _agendamentoRepository.ExisteConflitoAsync(
-                    request.ClienteId,
-                    data,
-                    horaInicio,
-                    horaFim);
+                    request.ClienteId, data, horaInicio, horaFim);
 
             if (conflitoClienteComoFuncionario)
-            {
                 return Conflict(new
                 {
-                    message =
-                        "Cliente já está como funcionário em um agendamento neste horário"
+                    message = "Cliente já está como funcionário em um agendamento neste horário"
                 });
-            }
 
             var agendamento = new Agendamento
             {
@@ -249,7 +204,6 @@ public class AgendamentosController : ControllerBase
             return CreatedAtAction(
                 nameof(BuscarPorId),
                 new { id = agendamento.Id },
-
                 new AgendamentoResponse
                 {
                     Id = agendamento.Id,
@@ -296,9 +250,7 @@ public class AgendamentosController : ControllerBase
                 FuncionarioId = a.FuncionarioId,
                 Cliente = a.Cliente?.Nome ?? "",
                 Funcionario = a.Funcionario?.Nome ?? "",
-                Servicos = a.Servicos
-                    .Select(s => s.Servico!.Nome)
-                    .ToList(),
+                Servicos = a.Servicos.Select(s => s.Servico!.Nome).ToList(),
                 Data = a.Data.ToString("yyyy-MM-dd"),
                 HoraInicio = a.HoraInicio.ToString("HH:mm"),
                 HoraFim = a.HoraFim.ToString("HH:mm"),
@@ -326,12 +278,7 @@ public class AgendamentosController : ControllerBase
                 await _agendamentoRepository.BuscarPorIdAsync(id);
 
             if (agendamento == null)
-            {
-                return NotFound(new
-                {
-                    message = "Agendamento não encontrado"
-                });
-            }
+                return NotFound(new { message = "Agendamento não encontrado" });
 
             return Ok(new AgendamentoResponse
             {
@@ -340,9 +287,7 @@ public class AgendamentosController : ControllerBase
                 FuncionarioId = agendamento.FuncionarioId,
                 Cliente = agendamento.Cliente?.Nome ?? "",
                 Funcionario = agendamento.Funcionario?.Nome ?? "",
-                Servicos = agendamento.Servicos
-                    .Select(s => s.Servico!.Nome)
-                    .ToList(),
+                Servicos = agendamento.Servicos.Select(s => s.Servico!.Nome).ToList(),
                 Data = agendamento.Data.ToString("yyyy-MM-dd"),
                 HoraInicio = agendamento.HoraInicio.ToString("HH:mm"),
                 HoraFim = agendamento.HoraFim.ToString("HH:mm"),
@@ -365,11 +310,11 @@ public class AgendamentosController : ControllerBase
         try
         {
             // 1. Busca o agendamento existente
-            var agendamentoExistente = await _agendamentoRepository.BuscarPorIdAsync(id);
+            var agendamentoExistente =
+                await _agendamentoRepository.BuscarPorIdAsync(id);
+
             if (agendamentoExistente == null)
-            {
                 return NotFound(new { message = "Agendamento não encontrado" });
-            }
 
             // 2. Validações básicas do request
             var erro = AgendamentoValidation.Validar(request);
@@ -383,17 +328,29 @@ public class AgendamentosController : ControllerBase
             if (cliente == null)
                 return NotFound(new { message = "Cliente não encontrado" });
 
+            // ✅ Bloqueia agendamento com cliente inativo
+            if (cliente.Status != "Ativo")
+                return UnprocessableEntity(new
+                {
+                    message = "Não é possível agendar com um cliente inativo"
+                });
+
             // 4. Validação de Funcionário
-            var funcionario = await _funcionarioRepository.BuscarPorIdAsync(request.FuncionarioId);
+            var funcionario =
+                await _funcionarioRepository.BuscarPorIdAsync(request.FuncionarioId);
+
             if (funcionario == null)
                 return NotFound(new { message = "Funcionário não encontrado" });
 
             if (cliente.Cpf == funcionario.Cpf)
-                return BadRequest(new { message = "Cliente e funcionário não podem ser a mesma pessoa" });
+                return BadRequest(new
+                {
+                    message = "Cliente e funcionário não podem ser a mesma pessoa"
+                });
 
             var horaInicio = TimeOnly.Parse(request.HoraInicio);
 
-            // 5. Validação de Turno do Funcionário
+            // 5. Validação de Turno
             if (!funcionario.Pj)
             {
                 var turnoValido = funcionario.Turno.ToLower() switch
@@ -405,9 +362,10 @@ public class AgendamentosController : ControllerBase
                 };
 
                 if (!turnoValido)
-                {
-                    return BadRequest(new { message = $"Funcionário só pode ser agendado no turno {funcionario.Turno}" });
-                }
+                    return BadRequest(new
+                    {
+                        message = $"Funcionário só pode ser agendado no turno {funcionario.Turno}"
+                    });
             }
 
             // 6. Busca e validação dos Serviços
@@ -416,15 +374,16 @@ public class AgendamentosController : ControllerBase
             {
                 var servico = await _servicoRepository.BuscarPorIdAsync(servicoId);
                 if (servico == null)
-                {
                     return NotFound(new { message = $"Serviço {servicoId} não encontrado" });
-                }
 
-                var funcionarioRealizaServico = funcionario.Servicos.Any(s => s.Id == servicoId);
+                var funcionarioRealizaServico =
+                    funcionario.Servicos.Any(s => s.Id == servicoId);
+
                 if (!funcionarioRealizaServico)
-                {
-                    return BadRequest(new { message = $"Funcionário não realiza o serviço {servico.Nome}" });
-                }
+                    return BadRequest(new
+                    {
+                        message = $"Funcionário não realiza o serviço {servico.Nome}"
+                    });
 
                 servicos.Add(servico);
             }
@@ -434,18 +393,17 @@ public class AgendamentosController : ControllerBase
             var data = DateOnly.Parse(request.Data);
             var horaFim = horaInicio.AddMinutes(tempoTotal);
 
-            // 7. Validação de Horas Mensais (Subtraindo o tempo antigo se for o mesmo mês)
+            // 7. Validação de Horas Mensais
             if (!funcionario.Pj && funcionario.HorasMensais.HasValue)
             {
-                var minutosJaTrabalhados = await _agendamentoRepository.TotalMinutosTrabalhadosNoMesAsync(
-                    request.FuncionarioId, data.Year, data.Month);
+                var minutosJaTrabalhados =
+                    await _agendamentoRepository.TotalMinutosTrabalhadosNoMesAsync(
+                        request.FuncionarioId, data.Year, data.Month);
 
-                // Se o agendamento original já era neste mês e para este funcionário, subtrai o tempo antigo para o cálculo correto
                 if (agendamentoExistente.FuncionarioId == request.FuncionarioId &&
                     agendamentoExistente.Data.Year == data.Year &&
                     agendamentoExistente.Data.Month == data.Month)
                 {
-                    // Nota: Idealmente seu agendamentoExistente deve ter a soma dos tempos guardada ou calculada
                     var tempoAntigo = agendamentoExistente.Servicos.Sum(s => s.Tempo);
                     minutosJaTrabalhados -= tempoAntigo;
                 }
@@ -456,32 +414,34 @@ public class AgendamentosController : ControllerBase
                     var horasRestantes = (limiteMinutos - minutosJaTrabalhados) / 60m;
                     return UnprocessableEntity(new
                     {
-                        message = $"Funcionário atingiu o limite de horas mensais. Restam {horasRestantes:F1}h disponíveis neste mês."
+                        message =
+                            $"Funcionário atingiu o limite de horas mensais. " +
+                            $"Restam {horasRestantes:F1}h disponíveis neste mês."
                     });
                 }
             }
 
-            // ⚠️ ATENÇÃO: As validações de conflito abaixo idealmente precisariam ignorar o ID do agendamento atual 
-            // para permitir remarcar no mesmo horário mudando apenas o funcionário/cliente, ou mudar algo mantendo o horário.
-            // Se os seus métodos "ExisteConflitoAsync" não aceitarem um parâmetro de ID opcional para ignorar, 
-            // a validação abaixo pode acusar conflito com ele mesmo se você tentar atualizar sem mudar o horário.
-
             // 8. Conflito Funcionário
-            var conflitoFuncionario = await _agendamentoRepository.ExisteConflitoAsync(request.FuncionarioId, data, horaInicio, horaFim);
-            // Regra simples de contorno caso o método não ignore o ID: se mudou o horário/funcionário OU se o repositório já trata isso.
-            if (conflitoFuncionario && (agendamentoExistente.HoraInicio != horaInicio || agendamentoExistente.FuncionarioId != request.FuncionarioId || agendamentoExistente.Data != data))
-            {
+            var conflitoFuncionario = await _agendamentoRepository.ExisteConflitoAsync(
+                request.FuncionarioId, data, horaInicio, horaFim);
+
+            if (conflitoFuncionario &&
+                (agendamentoExistente.HoraInicio != horaInicio ||
+                 agendamentoExistente.FuncionarioId != request.FuncionarioId ||
+                 agendamentoExistente.Data != data))
                 return Conflict(new { message = "Horário indisponível para este funcionário" });
-            }
 
             // 9. Conflito Cliente
-            var conflitoCliente = await _agendamentoRepository.ExisteConflitoClienteAsync(request.ClienteId, data, horaInicio, horaFim);
-            if (conflitoCliente && (agendamentoExistente.HoraInicio != horaInicio || agendamentoExistente.ClienteId != request.ClienteId || agendamentoExistente.Data != data))
-            {
-                return Conflict(new { message = "Cliente já possui agendamento neste horário" });
-            }
+            var conflitoCliente = await _agendamentoRepository.ExisteConflitoClienteAsync(
+                request.ClienteId, data, horaInicio, horaFim);
 
-            // 10. Atualiza as propriedades do objeto existente
+            if (conflitoCliente &&
+                (agendamentoExistente.HoraInicio != horaInicio ||
+                 agendamentoExistente.ClienteId != request.ClienteId ||
+                 agendamentoExistente.Data != data))
+                return Conflict(new { message = "Cliente já possui agendamento neste horário" });
+
+            // 10. Atualiza as propriedades
             agendamentoExistente.ClienteId = request.ClienteId;
             agendamentoExistente.FuncionarioId = request.FuncionarioId;
             agendamentoExistente.Data = data;
@@ -489,7 +449,6 @@ public class AgendamentosController : ControllerBase
             agendamentoExistente.HoraFim = horaFim;
             agendamentoExistente.Total = valorTotal;
 
-            // Atualiza a lista de serviços (limpa os antigos e adiciona os novos)
             agendamentoExistente.Servicos.Clear();
             foreach (var servico in servicos)
             {
@@ -501,7 +460,7 @@ public class AgendamentosController : ControllerBase
                 });
             }
 
-            // 11. Salva as alterações no repositório
+            // 11. Salva as alterações
             await _agendamentoRepository.AtualizarAsync(agendamentoExistente);
 
             return Ok(new AgendamentoResponse
@@ -528,7 +487,6 @@ public class AgendamentosController : ControllerBase
         }
     }
 
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> Deletar(int id)
     {
@@ -538,19 +496,11 @@ public class AgendamentosController : ControllerBase
                 await _agendamentoRepository.BuscarPorIdAsync(id);
 
             if (agendamento == null)
-            {
-                return NotFound(new
-                {
-                    message = "Agendamento não encontrado"
-                });
-            }
+                return NotFound(new { message = "Agendamento não encontrado" });
 
             await _agendamentoRepository.RemoverAsync(agendamento);
 
-            return Ok(new
-            {
-                message = "Agendamento removido com sucesso"
-            });
+            return Ok(new { message = "Agendamento removido com sucesso" });
         }
         catch (Exception ex)
         {

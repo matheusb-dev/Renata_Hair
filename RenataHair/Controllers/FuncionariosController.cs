@@ -36,9 +36,16 @@ public class FuncionariosController : ControllerBase
             if (cpfExiste)
                 return Conflict(new { message = "CPF já cadastrado" });
 
+            // ✅ Serviços obrigatórios
+            if (request.ServicosIds == null || request.ServicosIds.Count == 0)
+                return BadRequest(new { message = "O funcionário deve ter pelo menos um serviço vinculado" });
+
             var servicos = await _context.Servicos
                 .Where(s => request.ServicosIds.Contains(s.Id))
                 .ToListAsync();
+
+            if (servicos.Count != request.ServicosIds.Count)
+                return NotFound(new { message = "Um ou mais serviços informados não foram encontrados" });
 
             var funcionario = new RenataHair.Domain.Entities.Funcionario
             {
@@ -243,9 +250,16 @@ public class FuncionariosController : ControllerBase
             if (cpfExiste)
                 return Conflict(new { message = "CPF já cadastrado" });
 
+            // ✅ Serviços obrigatórios
+            if (request.ServicosIds == null || request.ServicosIds.Count == 0)
+                return BadRequest(new { message = "O funcionário deve ter pelo menos um serviço vinculado" });
+
             var servicos = await _context.Servicos
                 .Where(s => request.ServicosIds.Contains(s.Id))
                 .ToListAsync();
+
+            if (servicos.Count != request.ServicosIds.Count)
+                return NotFound(new { message = "Um ou mais serviços informados não foram encontrados" });
 
             funcionario.Nome = request.Nome.Trim();
             funcionario.Cpf = cpf;

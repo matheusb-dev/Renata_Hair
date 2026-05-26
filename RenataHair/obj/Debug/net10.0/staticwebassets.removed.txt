@@ -1,4 +1,4 @@
-D:\Users\admin\Desktop\Renata_Hair\RenataHair\wwwroot\TelaLogin\login.html
-D:\Users\admin\Desktop\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\auth.js
-D:\Users\admin\Desktop\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\script.js
-D:\Users\admin\Desktop\Renata_Hair\RenataHair\wwwroot\TelaLogin\css\style.css
+C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair\wwwroot\TelaLogin\login.html
+C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\auth.js
+C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair\wwwroot\TelaLogin\js\script.js
+C:\Users\leiti\Desktop\GIT - Copia\Renata_Hair\RenataHair\wwwroot\TelaLogin\css\style.css
