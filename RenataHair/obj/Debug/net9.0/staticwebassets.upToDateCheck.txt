@@ -1,9 +1,0 @@
-wwwroot\TelaLogin\css\style.css
-wwwroot\TelaLogin\img\Logo.png
-wwwroot\TelaLogin\js\auth.js
-wwwroot\TelaLogin\js\script.js
-wwwroot\TelaLogin\login.html
-C:\Users\leiti\Downloads\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\RenataHair\wwwroot\TelaLogin\css\style.css
-C:\Users\leiti\Downloads\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\RenataHair\wwwroot\TelaLogin\js\auth.js
-C:\Users\leiti\Downloads\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\RenataHair\wwwroot\TelaLogin\js\script.js
-C:\Users\leiti\Downloads\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\Renata_Hair-b079d0e11f4e338c3a70dc08cb9a3b02a348c4b6\RenataHair\wwwroot\TelaLogin\login.html
