@@ -1,4 +1,6 @@
-﻿verificarAutenticacao();
+﻿const API_URL = "http://localhost:5020";
+
+verificarAutenticacao();
 
 function getToken() {
     return localStorage.getItem("token");
@@ -7,7 +9,7 @@ function getToken() {
 function logout() {
     const token = getToken();
 
-    fetch("/api/Auth/logout", {
+    fetch(`${API_URL}/api/Auth/logout`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -15,6 +17,7 @@ function logout() {
     }).finally(() => {
         localStorage.removeItem("token");
         localStorage.removeItem("usuario");
+
         window.location.href = "/TelaLogin/login.html";
     });
 }
@@ -24,6 +27,7 @@ function fetchAutenticado(url, options = {}) {
 
     if (!token) {
         window.location.href = "/TelaLogin/login.html";
+
         return Promise.reject("Sem token");
     }
 
@@ -33,20 +37,28 @@ function fetchAutenticado(url, options = {}) {
         "Content-Type": "application/json"
     };
 
-    return fetch(url, options).then(response => {
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("usuario");
-            window.location.href = "/TelaLogin/login.html";
-            return Promise.reject("Token expirado");
-        }
-        return response;
-    });
+    return fetch(`${API_URL}${url}`, options)
+        .then(response => {
+
+            if (response.status === 401) {
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("usuario");
+
+                window.location.href = "/TelaLogin/login.html";
+
+                return Promise.reject("Token expirado");
+            }
+
+            return response;
+        });
 }
 
 // Verifica se está autenticado ao carregar qualquer página protegida
 function verificarAutenticacao() {
+
     const token = getToken();
+
     if (!token) {
         window.location.href = "/TelaLogin/login.html";
     }

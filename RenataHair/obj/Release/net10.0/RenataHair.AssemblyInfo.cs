@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RenataHair")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef94ba8fef2c4db91dc02739b4edb8e623c6160d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02c42a9478c4f8cfbbbd3980da25cc85c2a1946c")]
 [assembly: System.Reflection.AssemblyProductAttribute("RenataHair")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RenataHair")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

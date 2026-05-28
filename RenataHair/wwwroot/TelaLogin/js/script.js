@@ -51,7 +51,7 @@ function fazerLogin() {
             btn.innerText = "Entrar";
             btn.disabled = false;
 
-            window.location.href = "/index.html";
+            window.location.href = "/TelaAgenda/agenda.html";
         })
         .catch(() => {
             mostrarErro("Usuário ou senha inválidos");
