@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Renata Hair - Agenda</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="/TelaAgenda/css/agenda.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <img src="/TelaLogin/img/logo.png" alt="Logo Renata Hair">
+            </div>
+
+            <h2>Agendar</h2>
+
+            <div class="form-group">
+                <i class="fa fa-user"></i>
+                <input type="text" id="cliente" placeholder="Cliente">
+            </div>
+
+            <div class="form-group">
+                <i class="fa fa-phone"></i>
+                <input type="text" id="telefone" placeholder="Telefone">
+            </div>
+
+            <div class="form-group">
+                <i class="fa fa-user-tie"></i>
+                <select id="funcionario">
+                    <option value="">Funcionário</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <i class="fa fa-scissors"></i>
+                <select id="servico">
+                    <option value="">Serviço</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <i class="fa fa-calendar"></i>
+                    <input type="date" id="data">
+                </div>
+
+                <div class="form-group">
+                    <i class="fa fa-clock"></i>
+                    <input type="time" id="hora">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <i class="fa fa-dollar-sign"></i>
+                <input type="text" id="total" placeholder="Total">
+            </div>
+
+            <button onclick="agendar()">
+                Agendar
+            </button>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="nav-btn active">Agenda</button>
+                    <button class="nav-btn">Funcionários</button>
+                    <button class="nav-btn">Clientes</button>
+                    <button class="nav-btn">Serviços</button>
+                </div>
+
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fa fa-right-from-bracket"></i>
+                    Sair
+                </button>
+            </header>
+
+            <section class="calendar-header">
+                <div class="calendar-navigation">
+                    <button id="btnAnterior">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <button id="btnProximo">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <h2 id="data-atual">
+                    Carregando...
+                </h2>
+            </section>
+
+            <section class="calendar-container">
+
+                <div class="calendar-top" id="calendar-top">
+                    <div class="time-column-header"></div>
+                </div>
+
+                <div class="calendar-grid">
+
+                    <div class="time-column" id="timeColumn">
+                    </div>
+
+                    <div class="calendar-columns" id="calendar-columns">
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="/TelaLogin/js/auth.js" defer></script>
+    <script src="/TelaAgenda/js/agenda.js" defer></script>
+
+</body>
+
+</html>
