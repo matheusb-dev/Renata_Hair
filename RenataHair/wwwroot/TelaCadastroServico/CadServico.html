@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Serviços - RenataHair</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header class="header-nav">
+        <img src="../img/logo-renata-hair.png" alt="Renata Hair Logo" class="logo">
+        <nav>
+            <button onclick="location.href='Agenda.html'">Agenda</button>
+            <button onclick="location.href='Funcionario.html'">Funcionário</button>
+            <button onclick="location.href='CadCliente.html'">Cliente</button>
+            <button onclick="location.href='CadServico.html'" class="active">Serviços</button>
+            <button onclick="history.back()">Voltar</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-card-box">
+            <button class="btn-editar">Editar Serviços</button>
+            <h2>Cadastrar Serviços</h2>
+
+            <form id="formCadastroServico">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="tempo">Tempo</label>
+                        <input type="text" id="tempo" name="tempo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="preco">Preço</label>
+                        <input type="number" id="preco" name="preco" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-salvar">Cadastrar</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>

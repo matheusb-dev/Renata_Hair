@@ -1,4 +1,3 @@
-
 const API_URL = "";
 
 function getToken() {
@@ -12,49 +11,7 @@ function verificarAutenticacao() {
 document.addEventListener("DOMContentLoaded", () => {
     verificarAutenticacao();
     configurarMascaras();
-    configurarDropdownServicos();
-    configurarListenersTurno();
 });
-
-
-function configurarDropdownServicos() {
-    const dropdown = document.querySelector('#dropdown-servicos');
-    if (!dropdown) return;
-
-    const checkboxes = dropdown.querySelectorAll('.dropdown-content input[type="checkbox"]');
-    const label = document.getElementById('selected-services-label');
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            const selecionados = Array.from(checkboxes)
-                .filter(i => i.checked)
-                .map(i => i.getAttribute('data-name') || i.value);
-
-            if (selecionados.length === 0) {
-                label.innerText = "Serviços";
-            } else if (selecionados.length <= 2) {
-                label.innerText = selecionados.join(', ');
-            } else {
-                label.innerText = `${selecionados.length} Selecionados`;
-            }
-        });
-    });
-}
-
-function configurarListenersTurno() {
-    const checkboxes = document.querySelectorAll('.turno-check');
-    const label = document.getElementById('selected-turno-label');
-
-    checkboxes.forEach(cb => {
-        cb.addEventListener('change', () => {
-            const selecionados = Array.from(checkboxes)
-                .filter(i => i.checked)
-                .map(i => i.value);
-
-            label.innerText = selecionados.length > 0 ? selecionados.join(', ') : "Turno";
-        });
-    });
-}
 
 function toggleDropdown(id) {
     const dropdown = document.getElementById(id);
@@ -73,7 +30,6 @@ document.addEventListener('click', function (e) {
         if (!d.contains(e.target)) d.classList.remove('active');
     });
 });
-
 
 function configurarMascaras() {
     const cpfInput = document.getElementById("cpf");
@@ -98,38 +54,16 @@ function configurarMascaras() {
     }
 }
 
-function obterServicosIdsSelecionados() {
-    return Array.from(document.querySelectorAll('#dropdown-servicos .dropdown-content input[type="checkbox"]:checked'))
-        .map(i => parseInt(i.value, 10))
-        .filter(id => !isNaN(id));
-}
-
-function obterTurnosSelecionados() {
-    return Array.from(document.querySelectorAll('.turno-check:checked'))
-        .map(i => i.value)
-        .join(', ');
-}
-
-
-function salvarFuncionario() {
+function salvarCliente() {
     const erroDiv = document.getElementById("erro-cadastro");
     if (erroDiv) erroDiv.style.display = "none";
 
     const nome = document.getElementById("nome").value.trim();
     const cpf = document.getElementById("cpf").value;
     const telefone = document.getElementById("telefone").value;
-    const pj = document.getElementById("pj").value === "true";
-    const turno = obterTurnosSelecionados();
-    const horasInput = document.getElementById("horas").value.trim();
 
-    if (!nome || !cpf || !telefone || !turno) {
-        mostrarErro("Por favor, preencha os campos obrigatórios (Nome, CPF, Telefone e Turno).");
-        return;
-    }
-
-    const servicosIds = obterServicosIdsSelecionados();
-    if (servicosIds.length === 0) {
-        mostrarErro("O funcionário deve ter pelo menos um serviço vinculado.");
+    if (!nome || !cpf || !telefone) {
+        mostrarErro("Por favor, preencha os campos obrigatórios (Nome, CPF e Telefone).");
         return;
     }
 
@@ -142,19 +76,15 @@ function salvarFuncionario() {
         Telefone: telefone,
         Email: document.getElementById("email").value.trim() || null,
         Endereco: document.getElementById("endereco").value.trim() || null,
-        Turno: turno,
-        HorasMensais: horasInput ? parseInt(horasInput, 10) : 0,
-        Pj: pj,
-        ServicosIds: servicosIds,
-        CadastrarComoCliente: document.getElementById("cliente-checkbox").checked
+        Premium: document.getElementById("premium").value === "true"
     };
 
-    fetchAutenticado("/api/Funcionarios", {
+    fetchAutenticado("/api/Clientes", {
         method: "POST",
         body: JSON.stringify(payload)
     })
         .then(() => {
-            alert("Funcionário cadastrado com sucesso!");
+            alert("Cliente cadastrado com sucesso!");
             limparFormulario();
         })
         .catch((error) => {
@@ -168,13 +98,8 @@ function salvarFuncionario() {
 
 function limparFormulario() {
     document.querySelectorAll('input[type="text"], input[type="email"]').forEach(i => i.value = "");
-    document.getElementById("cliente-checkbox").checked = false;
-    document.getElementById("pj").value = "false";
-    document.getElementById("selected-pj-label").innerText = "Pessoa Física";
-
-    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-    document.getElementById("selected-turno-label").innerText = "Turno";
-    document.getElementById("selected-services-label").innerText = "Serviços";
+    document.getElementById("premium").value = "false";
+    document.getElementById("selected-premium-label").innerText = "Premium";
 }
 
 function fetchAutenticado(url, options = {}) {
