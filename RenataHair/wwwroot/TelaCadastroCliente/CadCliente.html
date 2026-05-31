@@ -4,60 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renata Hair - Cadastrar Cliente</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="/TelaCadastroFuncionario/css/CadFuncionario.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="/TelaCadastroCliente/css/CadCliente.css">
 </head>
+
 <body>
 
     <header class="universal-topbar">
         <div class="logo-box">
-            <img src="/TelaLogin/img/logo.png" alt="Logo Renata Hair" class="logo-img">
+            <img src="/TelaLogin/img/logo.png"
+                 alt="Logo Renata Hair"
+                 class="logo-img">
         </div>
+
         <nav class="nav-links">
             <a href="/TelaAgenda/agenda.html">Agenda</a>
             <a href="/TelaCadastroFuncionario/CadFuncionario.html">Funcionários</a>
             <a href="#" class="active">Clientes</a>
             <a href="/TelaCadastroServico/CadServico.html">Serviços</a>
         </nav>
-        <button class="logout-btn" onclick="logout()">Sair</button>
+
+        <button class="logout-btn" onclick="logout()">
+            Sair
+        </button>
     </header>
 
     <main class="main-container">
+
         <div class="form-card-box">
+
             <div class="form-header-row">
                 <h2>Cadastrar Cliente</h2>
             </div>
 
-            <div id="erro-cadastro" style="color: white; margin-bottom: 20px; display: none; background: rgba(255,0,0,0.2); padding: 10px; border-radius: 10px;"></div>
+            <div id="erro-cadastro"
+                 style="color:white;
+                        margin-bottom:20px;
+                        display:none;
+                        background:rgba(255,0,0,0.2);
+                        padding:10px;
+                        border-radius:10px;">
+            </div>
 
             <div class="form-grid">
-                <div class="form-group"><i class="fa fa-user"></i><input type="text" id="nome" placeholder="Nome"></div>
-                <div class="form-group"><i class="fa fa-id-card"></i><input type="text" id="cpf" placeholder="CPF"></div>
-                <div class="form-group"><i class="fa fa-map-marker-alt"></i><input type="text" id="endereco" placeholder="Endereço"></div>
-                <div class="form-group"><i class="fa fa-phone"></i><input type="text" id="telefone" placeholder="Telefone"></div>
-                <div class="form-group"><i class="fa fa-envelope"></i><input type="email" id="email" placeholder="E-mail"></div>
 
-                <div class="dropdown-custom" id="dropdown-premium">
-                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-premium')">
-                        <i class="fa fa-star"></i>
-                        <span id="selected-premium-label">Premium</span>
-                        <i class="fa fa-chevron-down" style="margin-left: auto;"></i>
-                    </div>
-                    <div class="dropdown-content">
-                        <label onclick="selecionarOpcao('dropdown-premium', 'selected-premium-label', 'Sim', 'true')">Sim</label>
-                        <label onclick="selecionarOpcao('dropdown-premium', 'selected-premium-label', 'Não', 'false')">Não</label>
-                    </div>
-                    <input type="hidden" id="premium" value="false">
+                <div class="form-group">
+                    <i class="fa fa-user"></i>
+                    <input type="text"
+                           id="nome"
+                           placeholder="Nome">
                 </div>
+
+                <div class="form-group">
+                    <i class="fa fa-id-card"></i>
+                    <input type="text"
+                           id="cpf"
+                           placeholder="CPF">
+                </div>
+
+                <div class="form-group">
+                    <i class="fa fa-map-marker-alt"></i>
+                    <input type="text"
+                           id="endereco"
+                           placeholder="Endereço">
+                </div>
+
+                <div class="form-group">
+                    <i class="fa fa-phone"></i>
+                    <input type="text"
+                           id="telefone"
+                           placeholder="Telefone">
+                </div>
+
+                <div class="form-group">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email"
+                           id="email"
+                           placeholder="E-mail">
+                </div>
+
+                <!-- PLANO -->
+
+                <div class="dropdown-custom" id="dropdown-plano">
+
+                    <div class="select-custom-btn"
+                         onclick="toggleDropdown('dropdown-plano')">
+
+                        <i class="fa fa-star"></i>
+
+                        <span id="selected-plano-label">
+                            Plano
+                        </span>
+
+                        <i class="fa fa-chevron-down"
+                           style="margin-left:auto;"></i>
+                    </div>
+
+                    <div class="dropdown-content">
+
+                        <label onclick="selecionarPlano('Nenhum')">
+                            Nenhum
+                        </label>
+
+                        <label onclick="selecionarPlano('Premium')">
+                            Premium
+                        </label>
+
+                    </div>
+
+                    <input type="hidden"
+                           id="plano"
+                           value="Nenhum">
+                </div>
+
+                <!-- TIPO DE MENSALIDADE -->
+
+                <div class="dropdown-custom"
+                     id="dropdown-mensalidade"
+                     style="display:none;">
+
+                    <div class="select-custom-btn"
+                         onclick="toggleDropdown('dropdown-mensalidade')">
+
+                        <i class="fa fa-calendar"></i>
+
+                        <span id="selected-mensalidade-label">
+                            Tipo de Mensalidade
+                        </span>
+
+                        <i class="fa fa-chevron-down"
+                           style="margin-left:auto;"></i>
+
+                    </div>
+
+                    <div class="dropdown-content">
+
+                        <label onclick="selecionarMensalidade('Mensal')">
+                            Mensal
+                        </label>
+
+                        <label onclick="selecionarMensalidade('Anual')">
+                            Anual
+                        </label>
+
+                    </div>
+
+                    <input type="hidden"
+                           id="tipoMensalidade"
+                           value="">
+                </div>
+
             </div>
 
             <div class="form-footer-actions">
-                <button type="button" id="btnCadastrarForm" class="btn-submit-action" onclick="salvarCliente()">Cadastrar</button>
+
+                <button type="button"
+                        id="btnCadastrarForm"
+                        class="btn-submit-action"
+                        onclick="salvarCliente()">
+
+                    Cadastrar
+
+                </button>
+
             </div>
+
         </div>
+
     </main>
 
-    <script src="/TelaCadastroClientes/js/CadCliente.js"></script>
+    <script src="/TelaCadastroCliente/js/CadCliente.js"></script>
+
 </body>
 </html>
