@@ -1,52 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Serviços - RenataHair</title>
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Renata Hair - Cadastrar Serviço</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/CadServico.css">
 </head>
 <body>
 
-    <header class="header-nav">
-        <img src="../img/logo-renata-hair.png" alt="Renata Hair Logo" class="logo">
-        <nav>
-            <button onclick="location.href='Agenda.html'">Agenda</button>
-            <button onclick="location.href='Funcionario.html'">Funcionário</button>
-            <button onclick="location.href='CadCliente.html'">Cliente</button>
-            <button onclick="location.href='CadServico.html'" class="active">Serviços</button>
-            <button onclick="history.back()">Voltar</button>
+    <header class="universal-topbar">
+        <div class="logo-box">
+            <img src="../TelaLogin/img/Logo.png" alt="Logo Renata Hair" class="logo-img">
+        </div>
+        <nav class="nav-links">
+            <a href="../TelaAgenda/agenda.html">Agenda</a>
+            <a href="../TelaCadastroFuncionario/CadFuncionario.html">Funcionários</a>
+            <a href="../TelaCadastroCliente/CadCliente.html">Clientes</a>
+            <a href="#" class="active">Serviços</a>
         </nav>
+        <button class="logout-btn" onclick="logout()">Sair</button>
     </header>
 
-    <main>
+    <main class="main-container">
         <div class="form-card-box">
-            <button class="btn-editar">Editar Serviços</button>
-            <h2>Cadastrar Serviços</h2>
+            <div class="form-header-row">
+                <h2>Cadastrar Serviço</h2>
+            </div>
 
-            <form id="formCadastroServico">
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" required>
-                    </div>
+            <div id="erro-cadastro" style="color: white; margin-bottom: 20px; display: none; background: rgba(255,0,0,0.2); padding: 10px; border-radius: 10px;"></div>
 
-                    <div class="input-group">
-                        <label for="tempo">Tempo</label>
-                        <input type="text" id="tempo" name="tempo" required>
-                    </div>
+            <div class="form-grid">
+                <div class="form-group"><i class="fa fa-cut"></i><input type="text" id="nomeServico" placeholder="Nome do Serviço"></div>
+                <div class="form-group"><i class="fa fa-clock"></i><input type="text" id="tempo" placeholder="Tempo (ex: 30min)"></div>
+                <div class="form-group"><i class="fa fa-dollar-sign"></i><input type="text" id="preco" placeholder="Preço"></div>
+            </div>
 
-                    <div class="input-group">
-                        <label for="preco">Preço</label>
-                        <input type="number" id="preco" name="preco" required>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-salvar">Cadastrar</button>
-            </form>
+            <div class="form-footer-actions">
+                <button type="button" id="btnCadastrarForm" class="btn-submit-action" onclick="salvarServico()">Cadastrar</button>
+            </div>
         </div>
     </main>
 
+    <script src="js/CadServico.js"></script>
 </body>
 </html>

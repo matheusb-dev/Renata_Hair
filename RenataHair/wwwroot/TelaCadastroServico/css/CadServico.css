@@ -88,15 +88,14 @@ body {
     padding: 50px;
 }
 
-
-.form-group, .dropdown-custom {
+.form-group {
     height: 70px;
     position: relative;
     display: flex;
     align-items: center;
 }
 
-    .form-group i, .select-custom-btn i:first-child {
+    .form-group i {
         position: absolute;
         left: 25px;
         color: #a0aab0;
@@ -104,7 +103,7 @@ body {
         z-index: 1;
     }
 
-    .form-group input, .select-custom-btn {
+    .form-group input {
         width: 100%;
         height: 100%;
         padding: 0 20px 0 65px;
@@ -117,49 +116,7 @@ body {
         display: flex;
         align-items: center;
         box-sizing: border-box;
-        cursor: pointer;
     }
-
-
-.dropdown-custom {
-    position: relative;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    width: 100%;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    padding: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    z-index: 9999;
-    box-sizing: border-box;
-}
-
-.dropdown-custom.active .dropdown-content {
-    display: block;
-}
-
-.dropdown-content label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    font-size: 15px;
-    color: #4a5568;
-    cursor: pointer;
-    border-radius: 10px;
-}
-
-    .dropdown-content label:hover {
-        background-color: #f1f5f9;
-    }
-
 
 .btn-submit-action {
     background-color: #bd5977;
@@ -170,19 +127,17 @@ body {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-}
-
-.form-footer-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 40px;
+    transition: 0.3s;
 }
 
-.checkbox-cliente-bottom {
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    .btn-submit-action:hover {
+        filter: brightness(1.1);
+    }
+
+/* Ajuste responsivo básico */
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }
