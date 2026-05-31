@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #c94b73, #a93c60);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.universal-topbar {
+    width: 100%;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 40px;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+    .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #ff7aa2;
+        }
+
+.logout-btn {
+    background: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    color: #bd5977;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.form-card-box {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 60px;
+    border-radius: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+.form-header-row h2 {
+    color: white;
+    margin-bottom: 40px;
+    font-size: 36px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    background-color: #ffffff;
+    border-radius: 25px;
+    padding: 50px;
+}
+
+.form-group {
+    height: 70px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    .form-group i {
+        position: absolute;
+        left: 25px;
+        color: #a0aab0;
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    .form-group input {
+        width: 100%;
+        height: 100%;
+        padding: 0 20px 0 65px;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        outline: none;
+        background-color: #f8fafc;
+        color: #4a5568;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+.btn-submit-action {
+    background-color: #bd5977;
+    color: white;
+    border: none;
+    padding: 20px 60px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 40px;
+    transition: 0.3s;
+}
+
+    .btn-submit-action:hover {
+        filter: brightness(1.1);
+    }
+
+/* Ajuste responsivo básico */
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

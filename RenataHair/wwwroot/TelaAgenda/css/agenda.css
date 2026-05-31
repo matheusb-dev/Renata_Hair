@@ -1,0 +1,119 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #c94b73, #a93c60);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.universal-topbar {
+    width: 100%;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 40px;
+}
+
+.logo-box {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+    .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ff7aa2;
+        }
+
+.logout-btn {
+    background: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 20px;
+    color: #bd5977;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .logout-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+/* Responsivo */
+
+@media (max-width: 900px) {
+    .universal-topbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 25px;
+    }
+
+    ```
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    ```
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+    }
+
+    ```
+    .logo-img {
+        height: 40px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        width: 100%;
+    }
+
+    ```
+}
