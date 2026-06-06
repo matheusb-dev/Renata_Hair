@@ -161,8 +161,9 @@ public class FuncionariosController : ControllerBase
                 query = query.Where(f => f.Cpf == cpfFiltro);
             }
 
+            // ✅ Alterado de == para Contains — suporta múltiplos turnos ex: "Manhã, Tarde"
             if (!string.IsNullOrWhiteSpace(turno))
-                query = query.Where(f => f.Turno.ToLower() == turno.ToLower());
+                query = query.Where(f => f.Turno.ToLower().Contains(turno.ToLower()));
 
             var funcionarios = await query.ToListAsync();
 

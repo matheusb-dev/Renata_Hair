@@ -1,39 +1,162 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renata Hair - Agenda</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/TelaAgenda/css/agenda.css">
-
-
 </head>
 <body>
 
+    <!-- TOPBAR -->
     <header class="universal-topbar">
         <div class="logo-box">
             <img src="/TelaAgenda/img/Logo.png" alt="Logo Renata Hair" class="logo-img">
         </div>
-
         <nav class="nav-links">
             <a href="/TelaAgenda/agenda.html" class="active">Agenda</a>
             <a href="/TelaCadastroFuncionario/CadFuncionario.html">Funcionários</a>
             <a href="/TelaCadastroCliente/CadCliente.html">Clientes</a>
             <a href="/TelaCadastroServico/CadServico.html">Serviços</a>
         </nav>
-
         <button class="logout-btn" onclick="logout()">Sair</button>
     </header>
 
     <main class="main-container">
 
+        <!-- CARD PRINCIPAL DA AGENDA -->
+        <div class="agenda-card">
+
+            <!-- BARRA DE NAVEGAÇÃO DE DATA -->
+            <div class="agenda-nav">
+                <div class="agenda-nav-left">
+                    <button class="nav-arrow-btn" onclick="navegarDia(-1)">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-arrow-btn" onclick="navegarDia(1)">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                    <span class="agenda-data-label" id="labelData"></span>
+                </div>
+                <div class="agenda-nav-right">
+                    <div class="datepicker-wrapper">
+                        <input type="date" id="inputData" onchange="irParaData(this.value)">
+                        <button class="btn-calendario" onclick="document.getElementById('inputData').showPicker()">
+                            <i class="fa fa-calendar-alt"></i>
+                            Calendário
+                        </button>
+                    </div>
+                    <button class="btn-novo-agendamento" onclick="abrirModalNovo()">
+                        <i class="fa fa-plus"></i>
+                        Novo
+                    </button>
+                </div>
+            </div>
+
+            <!-- GRADE DA AGENDA -->
+            <div class="agenda-grid-wrapper">
+                <div class="agenda-grid" id="agendaGrid">
+                    <!-- Renderizado por agendaGrid.js -->
+                </div>
+            </div>
+
+            <!-- ESTADO DE CARREGAMENTO -->
+            <div class="agenda-loading" id="agendaLoading">
+                <i class="fa fa-spinner fa-spin"></i>
+                <span>Carregando agenda...</span>
+            </div>
+
+            <!-- ESTADO VAZIO -->
+            <div class="agenda-empty" id="agendaEmpty" style="display:none;">
+                <i class="fa fa-calendar-times"></i>
+                <span>Nenhum funcionário cadastrado</span>
+            </div>
+
+        </div>
+
     </main>
 
+    <!-- ========== MODAL DE AGENDAMENTO ========== -->
+    <div class="modal-overlay" id="modalOverlay" onclick="fecharModalSeForaDoConteudo(event)">
+        <div class="modal-box">
+
+            <div class="modal-header">
+                <h3 id="modalTitulo">Novo Agendamento</h3>
+                <button class="modal-close-btn" onclick="fecharModal()">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+
+            <div id="modal-erro" class="modal-erro" style="display:none;"></div>
+
+            <div class="modal-body">
+
+                <div class="modal-grid">
+
+                    <!-- CLIENTE -->
+                    <div class="modal-field">
+                        <label><i class="fa fa-user"></i> Cliente</label>
+                        <select id="modalCliente">
+                            <option value="">Selecione o cliente</option>
+                        </select>
+                    </div>
+
+                    <!-- FUNCIONÁRIO -->
+                    <div class="modal-field">
+                        <label><i class="fa fa-user-tie"></i> Funcionário</label>
+                        <select id="modalFuncionario" onchange="onFuncionarioChange()">
+                            <option value="">Selecione o funcionário</option>
+                        </select>
+                    </div>
+
+                    <!-- DATA -->
+                    <div class="modal-field">
+                        <label><i class="fa fa-calendar"></i> Data</label>
+                        <input type="date" id="modalData">
+                    </div>
+
+                    <!-- HORA INÍCIO -->
+                    <div class="modal-field">
+                        <label><i class="fa fa-clock"></i> Hora de Início</label>
+                        <input type="time" id="modalHoraInicio" step="1800">
+                    </div>
+
+                    <!-- SERVIÇOS -->
+                    <div class="modal-field modal-field-full">
+                        <label><i class="fa fa-scissors"></i> Serviços</label>
+                        <div class="servicos-lista" id="servicosLista">
+                            <span class="servicos-placeholder">Selecione um funcionário primeiro</span>
+                        </div>
+                    </div>
+
+                    <!-- TOTAL (exibição) -->
+                    <div class="modal-field modal-field-full">
+                        <div class="modal-total-box">
+                            <span>Total estimado:</span>
+                            <strong id="modalTotal">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+                <button class="btn-salvar" id="btnSalvarModal" onclick="salvarAgendamento()">
+                    Salvar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <script src="/TelaAgenda/js/agenda.js"></script>
+    <script src="/TelaAgenda/js/agendaGrid.js"></script>
+    <script src="/TelaAgenda/js/agendaCards.js"></script>
+    <script src="/TelaAgenda/js/agendaModal.js"></script>
 
 </body>
 </html>

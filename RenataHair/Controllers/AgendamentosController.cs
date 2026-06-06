@@ -4,6 +4,8 @@ using RenataHair.Application.DTOs;
 using RenataHair.Application.Validators;
 using RenataHair.Domain.Contracts;
 using RenataHair.Domain.Entities;
+using System.Text;
+using System.Globalization;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -27,6 +29,30 @@ public class AgendamentosController : ControllerBase
         _servicoRepository = servicoRepository;
     }
 
+    // ✅ Remove acentos para comparação segura independente de encoding
+    private static string RemoverAcentos(string texto)
+    {
+        var normalizado = texto.Normalize(NormalizationForm.FormD);
+        var sb = new StringBuilder();
+        foreach (var c in normalizado)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                sb.Append(c);
+        }
+        return sb.ToString().ToLower();
+    }
+
+    private static bool HorarioEmTurno(string turno, TimeOnly horaInicio)
+    {
+        return RemoverAcentos(turno) switch
+        {
+            "manha" => horaInicio >= new TimeOnly(6, 0) && horaInicio < new TimeOnly(12, 0),
+            "tarde" => horaInicio >= new TimeOnly(12, 0) && horaInicio < new TimeOnly(18, 0),
+            "noite" => horaInicio >= new TimeOnly(18, 0) && horaInicio <= new TimeOnly(23, 59),
+            _ => false
+        };
+    }
+
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] AgendamentoRequest request)
     {
@@ -45,7 +71,6 @@ public class AgendamentosController : ControllerBase
             if (cliente == null)
                 return NotFound(new { message = "Cliente não encontrado" });
 
-            // ✅ Bloqueia agendamento com cliente inativo
             if (cliente.Status != "Ativo")
                 return UnprocessableEntity(new
                 {
@@ -68,24 +93,16 @@ public class AgendamentosController : ControllerBase
 
             if (!funcionario.Pj)
             {
-                var turnoValido = funcionario.Turno.ToLower() switch
-                {
-                    "manhã" =>
-                        horaInicio >= new TimeOnly(6, 0) &&
-                        horaInicio < new TimeOnly(12, 0),
-                    "tarde" =>
-                        horaInicio >= new TimeOnly(12, 0) &&
-                        horaInicio < new TimeOnly(18, 0),
-                    "noite" =>
-                        horaInicio >= new TimeOnly(18, 0) &&
-                        horaInicio <= new TimeOnly(23, 59),
-                    _ => false
-                };
+                var turnosFuncionario = funcionario.Turno
+                    .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                var turnoValido = turnosFuncionario.Any(t => HorarioEmTurno(t, horaInicio));
 
                 if (!turnoValido)
                     return BadRequest(new
                     {
-                        message = $"Funcionário só pode ser agendado no turno {funcionario.Turno}"
+                        message = $"Funcionário só pode ser agendado no(s) turno(s): {funcionario.Turno}"
                     });
             }
 
@@ -328,7 +345,6 @@ public class AgendamentosController : ControllerBase
             if (cliente == null)
                 return NotFound(new { message = "Cliente não encontrado" });
 
-            // ✅ Bloqueia agendamento com cliente inativo
             if (cliente.Status != "Ativo")
                 return UnprocessableEntity(new
                 {
@@ -350,21 +366,19 @@ public class AgendamentosController : ControllerBase
 
             var horaInicio = TimeOnly.Parse(request.HoraInicio);
 
-            // 5. Validação de Turno
+            // 5. ✅ Validação de Turno com suporte a múltiplos turnos e sem acentos
             if (!funcionario.Pj)
             {
-                var turnoValido = funcionario.Turno.ToLower() switch
-                {
-                    "manhã" => horaInicio >= new TimeOnly(6, 0) && horaInicio < new TimeOnly(12, 0),
-                    "tarde" => horaInicio >= new TimeOnly(12, 0) && horaInicio < new TimeOnly(18, 0),
-                    "noite" => horaInicio >= new TimeOnly(18, 0) && horaInicio <= new TimeOnly(23, 59),
-                    _ => false
-                };
+                var turnosFuncionario = funcionario.Turno
+                    .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                var turnoValido = turnosFuncionario.Any(t => HorarioEmTurno(t, horaInicio));
 
                 if (!turnoValido)
                     return BadRequest(new
                     {
-                        message = $"Funcionário só pode ser agendado no turno {funcionario.Turno}"
+                        message = $"Funcionário só pode ser agendado no(s) turno(s): {funcionario.Turno}"
                     });
             }
 
