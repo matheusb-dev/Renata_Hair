@@ -2,9 +2,6 @@
 //  agendaCards.js — busca e renderiza os cards
 // =============================================
 
-/**
- * Busca os agendamentos do dia e renderiza os cards na grade
- */
 async function carregarAgendamentos(dataStr) {
     mostrarLoading(true);
     limparCards();
@@ -23,46 +20,27 @@ async function carregarAgendamentos(dataStr) {
     }
 }
 
-/**
- * Remove todos os cards existentes da grade
- * (sem destruir a estrutura da grade)
- */
 function limparCards() {
     document.querySelectorAll(".agendamento-card").forEach(card => card.remove());
 }
 
-/**
- * Renderiza um card de agendamento na célula correta da grade
- *
- * O card é posicionado de forma absoluta dentro da coluna do funcionário,
- * usando top e height calculados a partir da hora início/fim.
- */
 function renderizarCard(agendamento) {
-    // Encontra a célula âncora (primeira célula do funcionário neste horário)
     const celulaAncora = getCelula(agendamento.funcionarioId, agendamento.horaInicio);
 
-    if (!celulaAncora) {
-        // Agendamento fora do intervalo visível da grade
-        return;
-    }
+    if (!celulaAncora) return;
 
     const { top, height } = calcularPosicaoCard(
         agendamento.horaInicio,
         agendamento.horaFim
     );
 
-    // Cria o card
     const card = document.createElement("div");
     card.className = "agendamento-card";
     card.dataset.id = agendamento.id;
 
-    // Posiciona relativo à coluna inteira do funcionário
-    // O card é inserido na célula de início mas usa position absolute
-    // para se estender pelos slots seguintes
     card.style.top = "2px";
     card.style.height = `${height}px`;
 
-    // Conteúdo do card
     const servicosTexto = agendamento.servicos.join(", ");
 
     card.innerHTML = `
@@ -82,11 +60,7 @@ function renderizarCard(agendamento) {
     celulaAncora.appendChild(card);
 }
 
-/**
- * Abre o modal preenchido com os dados do agendamento para edição
- */
 async function editarAgendamento(id, event) {
-    // Impede que o clique propague para a célula (que abriria modal de novo)
     event.stopPropagation();
 
     try {
@@ -94,28 +68,77 @@ async function editarAgendamento(id, event) {
         const agendamento = await response.json();
         abrirModalEdicao(agendamento);
     } catch (erro) {
-        alert("Erro ao buscar agendamento: " + erro);
+        mostrarToast("error", "Erro ao carregar", erro || "Não foi possível buscar o agendamento.");
     }
 }
 
-/**
- * Exclui um agendamento após confirmação
- */
-async function excluirAgendamento(id, event) {
+function excluirAgendamento(id, event) {
     event.stopPropagation();
+    abrirModalConfirmacao(id);
+}
 
-    if (!confirm("Deseja excluir este agendamento?")) return;
+// ---- MODAL DE CONFIRMAÇÃO ----
+
+function abrirModalConfirmacao(id) {
+    let overlay = document.getElementById("modalConfirmOverlay");
+
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.id = "modalConfirmOverlay";
+        overlay.className = "modal-confirm-overlay";
+        overlay.innerHTML = `
+            <div class="modal-confirm-box">
+                <div class="modal-confirm-header">
+                    <div class="modal-confirm-icon">
+                        <i class="fa fa-trash"></i>
+                    </div>
+                    <h3>Excluir agendamento</h3>
+                </div>
+                <div class="modal-confirm-body">
+                    <p>Tem certeza que deseja excluir este agendamento? Esta ação não poderá ser desfeita.</p>
+                </div>
+                <div class="modal-confirm-footer">
+                    <button class="btn-confirm-cancelar" onclick="fecharModalConfirmacao()">Cancelar</button>
+                    <button class="btn-confirm-excluir" id="btnConfirmExcluir">Sim, excluir</button>
+                </div>
+            </div>
+        `;
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) fecharModalConfirmacao();
+        });
+        document.body.appendChild(overlay);
+    }
+
+    document.getElementById("btnConfirmExcluir").onclick = () => confirmarExclusao(id);
+    overlay.classList.add("aberto");
+}
+
+function fecharModalConfirmacao() {
+    const overlay = document.getElementById("modalConfirmOverlay");
+    if (overlay) overlay.classList.remove("aberto");
+}
+
+async function confirmarExclusao(id) {
+    const btn = document.getElementById("btnConfirmExcluir");
+    btn.disabled = true;
+    btn.textContent = "Excluindo...";
 
     try {
         await fetchAutenticado(`/api/Agendamentos/${id}`, {
             method: "DELETE"
         });
 
-        // Recarrega os cards do dia atual
+        fecharModalConfirmacao();
+        mostrarToast("success", "Agendamento excluído!", "O agendamento foi removido com sucesso.");
+
         const dataStr = formatarDataParaAPI(AgendaState.dataAtual);
         await carregarAgendamentos(dataStr);
 
     } catch (erro) {
-        alert("Erro ao excluir agendamento: " + erro);
+        fecharModalConfirmacao();
+        mostrarToast("error", "Erro ao excluir", erro || "Não foi possível excluir o agendamento.");
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "Sim, excluir";
     }
 }

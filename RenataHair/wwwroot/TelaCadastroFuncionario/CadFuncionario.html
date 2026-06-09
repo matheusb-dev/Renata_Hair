@@ -4,224 +4,389 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renata Hair - Cadastrar Funcionário</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/TelaCadastroFuncionario/css/CadFuncionario.css">
+    <style>
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            .modal-overlay.aberto {
+                display: flex;
+            }
 
-    <link rel="stylesheet"
-          href="/TelaCadastroFuncionario/css/CadFuncionario.css">
+        .modal-box {
+            background: #fff;
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .modal-header h3 {
+                font-size: 22px;
+                color: #bd5977;
+                font-weight: 700;
+            }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .lista-selecionar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .item-selecionar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+
+            .item-selecionar:hover, .item-selecionar.ativo {
+                background: #fce8ef;
+                border-color: #bd5977;
+            }
+
+        .item-nome {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .item-detalhe {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .form-edicao {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+            .form-edicao label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #4a5568;
+                margin-bottom: 4px;
+                display: block;
+            }
+
+            .form-edicao input[type="text"],
+            .form-edicao input[type="email"],
+            .form-edicao input[type="number"] {
+                width: 100%;
+                padding: 14px 18px;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background: #f8fafc;
+                outline: none;
+                box-sizing: border-box;
+            }
+
+            .form-edicao input:focus {
+                border-color: #bd5977;
+            }
+
+        .dropdown-modal {
+            position: relative;
+        }
+
+            .dropdown-modal .select-btn {
+                width: 100%;
+                padding: 14px 18px;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background: #f8fafc;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-sizing: border-box;
+            }
+
+            .dropdown-modal .dropdown-list {
+                display: none;
+                position: absolute;
+                top: calc(100% + 5px);
+                left: 0;
+                width: 100%;
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                padding: 10px;
+                z-index: 9999;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+
+            .dropdown-modal.active .dropdown-list {
+                display: block;
+            }
+
+            .dropdown-modal .dropdown-list label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 10px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 15px;
+                color: #4a5568;
+            }
+
+                .dropdown-modal .dropdown-list label:hover {
+                    background: #f1f5f9;
+                }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancelar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #4a5568;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-salvar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: none;
+            background: #bd5977;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-editar-action {
+            background-color: white;
+            color: #bd5977;
+            border: 2px solid #bd5977;
+            padding: 12px 28px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-erro {
+            background: rgba(255,0,0,0.1);
+            color: #c0392b;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
     <header class="universal-topbar">
         <div class="logo-box">
-            <img src="/TelaLogin/img/logo.png"
-                 alt="Logo Renata Hair"
-                 class="logo-img">
+            <img src="/TelaLogin/img/logo.png" alt="Logo Renata Hair" class="logo-img">
         </div>
-
         <nav class="nav-links">
             <a href="/TelaAgenda/agenda.html">Agenda</a>
             <a href="#" class="active">Funcionários</a>
             <a href="/TelaCadastroCliente/CadCliente.html">Clientes</a>
             <a href="/TelaCadastroServico/CadServico.html">Serviços</a>
         </nav>
-
-        <button class="logout-btn" onclick="logout()">
-            Sair
-        </button>
+        <button class="logout-btn" onclick="logout()">Sair</button>
     </header>
 
     <main class="main-container">
-
         <div class="form-card-box">
-
-            <div class="form-header-row">
-                <h2>Cadastrar Funcionário</h2>
+            <div class="form-header-row" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;">
+                <h2 style="margin-bottom:0;">Cadastrar Funcionário</h2>
+                <button type="button" class="btn-editar-action" onclick="abrirModalEdicaoFuncionario()">
+                    <i class="fa fa-edit" style="margin-right:6px;"></i>Editar Funcionário
+                </button>
             </div>
 
-            <div id="erro-cadastro"
-                 style="display:none;color:white;margin-bottom:20px;padding:10px;border-radius:10px;background:rgba(255,0,0,.2)">
-            </div>
+            <div id="erro-cadastro" style="display:none;color:white;margin-bottom:20px;padding:10px;border-radius:10px;background:rgba(255,0,0,.2)"></div>
 
             <div class="form-grid">
+                <div class="form-group"><i class="fa fa-user"></i><input type="text" id="nome" placeholder="Nome"></div>
+                <div class="form-group"><i class="fa fa-map-marker-alt"></i><input type="text" id="endereco" placeholder="Endereço"></div>
+                <div class="form-group"><i class="fa fa-envelope"></i><input type="email" id="email" placeholder="E-mail"></div>
+                <div class="form-group"><i class="fa fa-id-card"></i><input type="text" id="cpf" placeholder="CPF"></div>
+                <div class="form-group"><i class="fa fa-phone"></i><input type="text" id="telefone" placeholder="Telefone"></div>
 
-                <div class="form-group">
-                    <i class="fa fa-user"></i>
-                    <input type="text"
-                           id="nome"
-                           placeholder="Nome">
-                </div>
-
-                <div class="form-group">
-                    <i class="fa fa-map-marker-alt"></i>
-                    <input type="text"
-                           id="endereco"
-                           placeholder="Endereço">
-                </div>
-
-                <div class="form-group">
-                    <i class="fa fa-envelope"></i>
-                    <input type="email"
-                           id="email"
-                           placeholder="E-mail">
-                </div>
-
-                <div class="form-group">
-                    <i class="fa fa-id-card"></i>
-                    <input type="text"
-                           id="cpf"
-                           placeholder="CPF">
-                </div>
-
-                <div class="form-group">
-                    <i class="fa fa-phone"></i>
-                    <input type="text"
-                           id="telefone"
-                           placeholder="Telefone">
-                </div>
-
-                <!-- SERVIÇOS -->
-
-                <div class="dropdown-custom"
-                     id="dropdown-servicos">
-
-                    <div class="select-custom-btn"
-                         onclick="toggleDropdown('dropdown-servicos')">
-
+                <div class="dropdown-custom" id="dropdown-servicos">
+                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-servicos')">
                         <i class="fa fa-scissors"></i>
-
-                        <span id="selected-services-label">
-                            Serviços
-                        </span>
-
-                        <i class="fa fa-chevron-down"
-                           style="margin-left:auto;">
-                        </i>
+                        <span id="selected-services-label">Serviços</span>
+                        <i class="fa fa-chevron-down" style="margin-left:auto;"></i>
                     </div>
-
-                    <div class="dropdown-content"
-                         id="servicos-container">
-
-                        <!-- carregado via API -->
-
-                    </div>
+                    <div class="dropdown-content" id="servicos-container"></div>
                 </div>
 
-                <!-- PJ -->
-
-                <div class="dropdown-custom"
-                     id="dropdown-pj">
-
-                    <div class="select-custom-btn"
-                         onclick="toggleDropdown('dropdown-pj')">
-
+                <div class="dropdown-custom" id="dropdown-pj">
+                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-pj')">
                         <i class="fa fa-briefcase"></i>
-
-                        <span id="selected-pj-label">
-                            Pessoa Física
-                        </span>
-
-                        <i class="fa fa-chevron-down"
-                           style="margin-left:auto;">
-                        </i>
+                        <span id="selected-pj-label">Pessoa Física</span>
+                        <i class="fa fa-chevron-down" style="margin-left:auto;"></i>
                     </div>
-
                     <div class="dropdown-content">
-
-                        <label onclick="selecionarOpcao('dropdown-pj','selected-pj-label','Pessoa Física','false')">
-                            Pessoa Física
-                        </label>
-
-                        <label onclick="selecionarOpcao('dropdown-pj','selected-pj-label','Pessoa Jurídica','true')">
-                            Pessoa Jurídica
-                        </label>
-
+                        <label onclick="selecionarOpcao('dropdown-pj','selected-pj-label','Pessoa Física','false')">Pessoa Física</label>
+                        <label onclick="selecionarOpcao('dropdown-pj','selected-pj-label','Pessoa Jurídica','true')">Pessoa Jurídica</label>
                     </div>
-
-                    <input type="hidden"
-                           id="pj"
-                           value="false">
+                    <input type="hidden" id="pj" value="false">
                 </div>
 
-                <!-- TURNO -->
-
-                <div class="dropdown-custom"
-                     id="dropdown-turno">
-
-                    <div class="select-custom-btn"
-                         onclick="toggleDropdown('dropdown-turno')">
-
+                <div class="dropdown-custom" id="dropdown-turno">
+                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-turno')">
                         <i class="fa fa-clock"></i>
-
-                        <span id="selected-turno-label">
-                            Turno
-                        </span>
-
-                        <i class="fa fa-chevron-down"
-                           style="margin-left:auto;">
-                        </i>
+                        <span id="selected-turno-label">Turno</span>
+                        <i class="fa fa-chevron-down" style="margin-left:auto;"></i>
                     </div>
-
                     <div class="dropdown-content">
-
-                        <label>
-                            <input type="checkbox"
-                                   value="Manhã"
-                                   class="turno-check">
-                            Manhã
-                        </label>
-
-                        <label>
-                            <input type="checkbox"
-                                   value="Tarde"
-                                   class="turno-check">
-                            Tarde
-                        </label>
-
-                        <label>
-                            <input type="checkbox"
-                                   value="Noite"
-                                   class="turno-check">
-                            Noite
-                        </label>
-
+                        <label><input type="checkbox" value="Manhã" class="turno-check"> Manhã</label>
+                        <label><input type="checkbox" value="Tarde" class="turno-check"> Tarde</label>
+                        <label><input type="checkbox" value="Noite" class="turno-check"> Noite</label>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <i class="fa fa-hourglass-half"></i>
-                    <input type="number"
-                           id="horas"
-                           placeholder="Horas Mensais">
-                </div>
-
+                <div class="form-group"><i class="fa fa-hourglass-half"></i><input type="number" id="horas" placeholder="Horas Mensais"></div>
             </div>
 
             <div class="form-footer-actions">
+                <button type="button" id="btnCadastrarForm" class="btn-submit-action" onclick="salvarFuncionario()">Cadastrar</button>
 
-                <button type="button"
-                        id="btnCadastrarForm"
-                        class="btn-submit-action"
-                        onclick="salvarFuncionario()">
-                    Cadastrar
-                </button>
+                <!-- TOGGLE CLIENTE -->
+                <div class="toggle-cliente-wrap">
+                    <span class="toggle-cliente-label">Cliente</span>
+                    <label class="toggle-cliente">
+                        <input type="checkbox" id="cliente-checkbox">
+                        <div class="toggle-track">
+                            <div class="toggle-thumb"></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </main>
 
-                <label class="checkbox-cliente-bottom">
-                    <input type="checkbox"
-                           id="cliente-checkbox">
-                    <span>Cliente</span>
-                </label>
+    <!-- ── Modal de Edição ── -->
+    <div class="modal-overlay" id="modalEditarOverlay" onclick="fecharModalSeForaDoConteudo(event)">
+        <div class="modal-box">
 
+            <div class="modal-header">
+                <h3>Editar Funcionário</h3>
+                <button class="modal-close" onclick="fecharModalEdicao()">✕</button>
+            </div>
+
+            <p style="color:#888;font-size:14px;">Selecione um funcionário para editar:</p>
+
+            <div class="lista-selecionar" id="listaSelecionarFuncionario"></div>
+
+            <div id="modal-editar-erro" class="modal-erro"></div>
+
+            <div class="form-edicao" id="formEdicaoFuncionario" style="display:none;">
+                <div><label>Nome</label><input type="text" id="editNome" placeholder="Nome"></div>
+                <div><label>Endereço</label><input type="text" id="editEndereco" placeholder="Endereço"></div>
+                <div><label>E-mail</label><input type="email" id="editEmail" placeholder="E-mail"></div>
+                <div><label>CPF</label><input type="text" id="editCpf" placeholder="CPF"></div>
+                <div><label>Telefone</label><input type="text" id="editTelefone" placeholder="Telefone"></div>
+                <div><label>Horas Mensais</label><input type="number" id="editHoras" placeholder="Horas Mensais"></div>
+
+                <div>
+                    <label>Tipo</label>
+                    <div class="dropdown-modal" id="editDropdownPj">
+                        <div class="select-btn" onclick="toggleDropdownModal('editDropdownPj')">
+                            <span id="selected-edit-pj-label">Pessoa Física</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-list">
+                            <label onclick="selecionarOpcaoModal('editDropdownPj','selected-edit-pj-label','Pessoa Física','false','editPj')">Pessoa Física</label>
+                            <label onclick="selecionarOpcaoModal('editDropdownPj','selected-edit-pj-label','Pessoa Jurídica','true','editPj')">Pessoa Jurídica</label>
+                        </div>
+                        <input type="hidden" id="editPj" value="false">
+                    </div>
+                </div>
+
+                <div>
+                    <label>Turno</label>
+                    <div class="dropdown-modal" id="editDropdownTurno">
+                        <div class="select-btn" onclick="toggleDropdownModal('editDropdownTurno')">
+                            <span id="selected-edit-turno-label">Turno</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-list">
+                            <label><input type="checkbox" value="Manhã" class="turno-check-edit"> Manhã</label>
+                            <label><input type="checkbox" value="Tarde" class="turno-check-edit"> Tarde</label>
+                            <label><input type="checkbox" value="Noite" class="turno-check-edit"> Noite</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label>Serviços</label>
+                    <div class="dropdown-modal" id="editDropdownServicos">
+                        <div class="select-btn" onclick="toggleDropdownModal('editDropdownServicos')">
+                            <span id="selected-edit-services-label">Serviços</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-list" id="editServicosContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancelar-modal" onclick="fecharModalEdicao()">Cancelar</button>
+                <button class="btn-salvar-modal" id="btnSalvarEdicao" onclick="salvarEdicaoFuncionario()">Salvar Alterações</button>
             </div>
 
         </div>
-
-    </main>
+    </div>
 
     <script src="/TelaCadastroFuncionario/js/CadFuncionario.js"></script>
-
 </body>
 </html>

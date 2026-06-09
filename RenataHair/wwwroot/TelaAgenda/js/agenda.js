@@ -4,11 +4,10 @@
 
 const API_URL = "";
 
-// Estado global da agenda
 const AgendaState = {
     dataAtual: new Date(),
-    funcionarios: [],   // lista completa com serviços
-    todosServicos: []   // lista completa de serviços com IDs
+    funcionarios: [],
+    todosServicos: []
 };
 
 // ---- AUTENTICAÇÃO ----
@@ -59,7 +58,6 @@ function fetchAutenticado(url, options = {}) {
 // ---- FORMATAÇÃO DE DATA ----
 
 function formatarDataParaAPI(date) {
-    // Retorna YYYY-MM-DD
     const ano = date.getFullYear();
     const mes = String(date.getMonth() + 1).padStart(2, "0");
     const dia = String(date.getDate()).padStart(2, "0");
@@ -67,7 +65,6 @@ function formatarDataParaAPI(date) {
 }
 
 function formatarDataParaLabel(date) {
-    // Retorna "26/03/2026 Quinta-feira"
     const diasSemana = [
         "Domingo", "Segunda-feira", "Terça-feira",
         "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"
@@ -88,7 +85,6 @@ function navegarDia(delta) {
 
 function irParaData(valor) {
     if (!valor) return;
-    // valor vem como "YYYY-MM-DD" do input date
     const [ano, mes, dia] = valor.split("-").map(Number);
     AgendaState.dataAtual = new Date(ano, mes - 1, dia);
     atualizarAgenda();
@@ -98,13 +94,8 @@ function atualizarLabelData() {
     const label = document.getElementById("labelData");
     const inputData = document.getElementById("inputData");
 
-    if (label) {
-        label.textContent = formatarDataParaLabel(AgendaState.dataAtual);
-    }
-
-    if (inputData) {
-        inputData.value = formatarDataParaAPI(AgendaState.dataAtual);
-    }
+    if (label) label.textContent = formatarDataParaLabel(AgendaState.dataAtual);
+    if (inputData) inputData.value = formatarDataParaAPI(AgendaState.dataAtual);
 }
 
 // ---- FLUXO PRINCIPAL ----
@@ -117,12 +108,12 @@ async function atualizarAgenda() {
 
 async function inicializar() {
     verificarAutenticacao();
+    criarToastContainer();
     atualizarLabelData();
 
     mostrarLoading(true);
 
     try {
-        // Carrega funcionários e serviços em paralelo
         const [funcionarios, servicos] = await Promise.all([
             fetchAutenticado("/api/Funcionarios/todos").then(r => r.json()),
             fetchAutenticado("/api/Servicos").then(r => r.json())
@@ -137,10 +128,8 @@ async function inicializar() {
             return;
         }
 
-        // Monta a grade com os funcionários
         montarGrid(funcionarios);
 
-        // Carrega os agendamentos do dia atual
         const dataStr = formatarDataParaAPI(AgendaState.dataAtual);
         await carregarAgendamentos(dataStr);
 
@@ -160,6 +149,43 @@ function mostrarLoading(visivel) {
 function mostrarVazio(visivel) {
     const empty = document.getElementById("agendaEmpty");
     if (empty) empty.style.display = visivel ? "flex" : "none";
+}
+
+// ---- TOAST ----
+
+function criarToastContainer() {
+    if (document.getElementById("toast-container")) return;
+    const container = document.createElement("div");
+    container.id = "toast-container";
+    document.body.appendChild(container);
+}
+
+function mostrarToast(tipo, titulo, mensagem, duracao = 3200) {
+    const container = document.getElementById("toast-container");
+    if (!container) return;
+
+    const icons = { success: "✓", error: "✗", info: "ℹ" };
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${tipo}`;
+    toast.innerHTML = `
+        <div class="toast-icon">${icons[tipo] || "ℹ"}</div>
+        <div class="toast-body">
+            <div class="toast-title">${titulo}</div>
+            <div class="toast-msg">${mensagem}</div>
+        </div>
+        <button class="toast-close" onclick="fecharToast(this.parentElement)">×</button>
+        <div class="toast-bar" style="animation: toastBar ${duracao}ms linear forwards;"></div>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => fecharToast(toast), duracao);
+}
+
+function fecharToast(toast) {
+    if (!toast || toast.classList.contains("hide")) return;
+    toast.classList.add("hide");
+    setTimeout(() => toast.remove(), 300);
 }
 
 // ---- INICIALIZAÇÃO ----

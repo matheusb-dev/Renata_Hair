@@ -135,9 +135,139 @@ body {
         filter: brightness(1.1);
     }
 
-/* Ajuste responsivo básico */
 @media (max-width: 992px) {
     .form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ─── TOAST ───────────────────────────────────────────────────────────────── */
+
+#toast-container {
+    position: fixed;
+    top: 28px;
+    right: 28px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 22px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 8px 32px rgba(189, 89, 119, 0.25);
+    min-width: 280px;
+    max-width: 360px;
+    pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+    animation: toastIn 0.35s cubic-bezier(.21, 1.02, .73, 1) forwards;
+    font-family: 'Poppins', sans-serif;
+}
+
+    .toast.hide {
+        animation: toastOut 0.3s ease forwards;
+    }
+
+.toast-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.28);
+}
+
+.toast.error .toast-icon {
+    background: rgba(255, 80, 100, 0.30);
+}
+
+.toast-body {
+    flex: 1;
+}
+
+.toast-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.toast-msg {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 400;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
+    margin-left: 4px;
+    transition: color 0.2s;
+}
+
+    .toast-close:hover {
+        color: #fff;
+    }
+
+.toast-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    border-radius: 0 0 18px 18px;
+    background: rgba(255, 255, 255, 0.45);
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateX(60px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toastOut {
+    from {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(60px) scale(0.92);
+    }
+}
+
+@keyframes toastBar {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
     }
 }

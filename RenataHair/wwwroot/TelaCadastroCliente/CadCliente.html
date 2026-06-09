@@ -4,182 +4,366 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renata Hair - Cadastrar Cliente</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/TelaCadastroCliente/css/CadCliente.css">
+    <style>
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            .modal-overlay.aberto {
+                display: flex;
+            }
 
-    <link rel="stylesheet"
-          href="/TelaCadastroCliente/css/CadCliente.css">
+        .modal-box {
+            background: #fff;
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            max-width: 580px;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .modal-header h3 {
+                font-size: 22px;
+                color: #bd5977;
+                font-weight: 700;
+            }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .lista-selecionar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .item-selecionar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+
+            .item-selecionar:hover, .item-selecionar.ativo {
+                background: #fce8ef;
+                border-color: #bd5977;
+            }
+
+        .item-nome {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .item-detalhe {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .form-edicao {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+            .form-edicao label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #4a5568;
+                margin-bottom: 4px;
+                display: block;
+            }
+
+            .form-edicao input {
+                width: 100%;
+                padding: 14px 18px;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background: #f8fafc;
+                outline: none;
+                box-sizing: border-box;
+            }
+
+                .form-edicao input:focus {
+                    border-color: #bd5977;
+                }
+
+        /* dropdown dentro do modal */
+        .dropdown-modal {
+            position: relative;
+        }
+
+            .dropdown-modal .select-btn {
+                width: 100%;
+                padding: 14px 18px;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background: #f8fafc;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                box-sizing: border-box;
+            }
+
+            .dropdown-modal .dropdown-list {
+                display: none;
+                position: absolute;
+                top: calc(100% + 5px);
+                left: 0;
+                width: 100%;
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                padding: 10px;
+                z-index: 9999;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+
+            .dropdown-modal.active .dropdown-list {
+                display: block;
+            }
+
+            .dropdown-modal .dropdown-list label {
+                display: block;
+                padding: 10px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 15px;
+                color: #4a5568;
+            }
+
+                .dropdown-modal .dropdown-list label:hover {
+                    background: #f1f5f9;
+                }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancelar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #4a5568;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-salvar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: none;
+            background: #bd5977;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-editar-action {
+            background-color: white;
+            color: #bd5977;
+            border: 2px solid #bd5977;
+            padding: 12px 28px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-erro {
+            background: rgba(255,0,0,0.1);
+            color: #c0392b;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
 </head>
-
 <body>
 
     <header class="universal-topbar">
         <div class="logo-box">
-            <img src="/TelaLogin/img/logo.png"
-                 alt="Logo Renata Hair"
-                 class="logo-img">
+            <img src="/TelaLogin/img/logo.png" alt="Logo Renata Hair" class="logo-img">
         </div>
-
         <nav class="nav-links">
             <a href="/TelaAgenda/agenda.html">Agenda</a>
             <a href="/TelaCadastroFuncionario/CadFuncionario.html">Funcionários</a>
             <a href="#" class="active">Clientes</a>
             <a href="/TelaCadastroServico/CadServico.html">Serviços</a>
         </nav>
-
-        <button class="logout-btn" onclick="logout()">
-            Sair
-        </button>
+        <button class="logout-btn" onclick="logout()">Sair</button>
     </header>
 
     <main class="main-container">
-
         <div class="form-card-box">
-
-            <div class="form-header-row">
-                <h2>Cadastrar Cliente</h2>
+            <div class="form-header-row" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;">
+                <h2 style="margin-bottom:0;">Cadastrar Cliente</h2>
+                <button type="button" class="btn-editar-action" onclick="abrirModalEdicaoCliente()">
+                    <i class="fa fa-edit" style="margin-right:6px;"></i>Editar Cliente
+                </button>
             </div>
 
-            <div id="erro-cadastro"
-                 style="color:white;
-                        margin-bottom:20px;
-                        display:none;
-                        background:rgba(255,0,0,0.2);
-                        padding:10px;
-                        border-radius:10px;">
-            </div>
+            <div id="erro-cadastro" style="color:white;margin-bottom:20px;display:none;background:rgba(255,0,0,0.2);padding:10px;border-radius:10px;"></div>
 
             <div class="form-grid">
-
                 <div class="form-group">
                     <i class="fa fa-user"></i>
-                    <input type="text"
-                           id="nome"
-                           placeholder="Nome">
+                    <input type="text" id="nome" placeholder="Nome">
                 </div>
-
                 <div class="form-group">
                     <i class="fa fa-id-card"></i>
-                    <input type="text"
-                           id="cpf"
-                           placeholder="CPF">
+                    <input type="text" id="cpf" placeholder="CPF">
                 </div>
-
                 <div class="form-group">
                     <i class="fa fa-map-marker-alt"></i>
-                    <input type="text"
-                           id="endereco"
-                           placeholder="Endereço">
+                    <input type="text" id="endereco" placeholder="Endereço">
                 </div>
-
                 <div class="form-group">
                     <i class="fa fa-phone"></i>
-                    <input type="text"
-                           id="telefone"
-                           placeholder="Telefone">
+                    <input type="text" id="telefone" placeholder="Telefone">
                 </div>
-
                 <div class="form-group">
                     <i class="fa fa-envelope"></i>
-                    <input type="email"
-                           id="email"
-                           placeholder="E-mail">
+                    <input type="email" id="email" placeholder="E-mail">
                 </div>
-
-                <!-- PLANO -->
-
                 <div class="dropdown-custom" id="dropdown-plano">
-
-                    <div class="select-custom-btn"
-                         onclick="toggleDropdown('dropdown-plano')">
-
+                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-plano')">
                         <i class="fa fa-star"></i>
-
-                        <span id="selected-plano-label">
-                            Plano
-                        </span>
-
-                        <i class="fa fa-chevron-down"
-                           style="margin-left:auto;"></i>
+                        <span id="selected-plano-label">Plano</span>
+                        <i class="fa fa-chevron-down" style="margin-left:auto;"></i>
                     </div>
-
                     <div class="dropdown-content">
-
-                        <label onclick="selecionarPlano('Nenhum')">
-                            Nenhum
-                        </label>
-
-                        <label onclick="selecionarPlano('Premium')">
-                            Premium
-                        </label>
-
+                        <label onclick="selecionarPlano('Nenhum')">Nenhum</label>
+                        <label onclick="selecionarPlano('Premium')">Premium</label>
                     </div>
-
-                    <input type="hidden"
-                           id="plano"
-                           value="Nenhum">
+                    <input type="hidden" id="plano" value="Nenhum">
                 </div>
-
-                <!-- TIPO DE MENSALIDADE -->
-
-                <div class="dropdown-custom"
-                     id="dropdown-mensalidade"
-                     style="display:none;">
-
-                    <div class="select-custom-btn"
-                         onclick="toggleDropdown('dropdown-mensalidade')">
-
+                <div class="dropdown-custom" id="dropdown-mensalidade" style="display:none;">
+                    <div class="select-custom-btn" onclick="toggleDropdown('dropdown-mensalidade')">
                         <i class="fa fa-calendar"></i>
-
-                        <span id="selected-mensalidade-label">
-                            Tipo de Mensalidade
-                        </span>
-
-                        <i class="fa fa-chevron-down"
-                           style="margin-left:auto;"></i>
-
+                        <span id="selected-mensalidade-label">Tipo de Mensalidade</span>
+                        <i class="fa fa-chevron-down" style="margin-left:auto;"></i>
                     </div>
-
                     <div class="dropdown-content">
-
-                        <label onclick="selecionarMensalidade('Mensal')">
-                            Mensal
-                        </label>
-
-                        <label onclick="selecionarMensalidade('Anual')">
-                            Anual
-                        </label>
-
+                        <label onclick="selecionarMensalidade('Mensal')">Mensal</label>
+                        <label onclick="selecionarMensalidade('Anual')">Anual</label>
                     </div>
-
-                    <input type="hidden"
-                           id="tipoMensalidade"
-                           value="">
+                    <input type="hidden" id="tipoMensalidade" value="">
                 </div>
-
             </div>
 
             <div class="form-footer-actions">
+                <button type="button" id="btnCadastrarForm" class="btn-submit-action" onclick="salvarCliente()">Cadastrar</button>
 
-                <button type="button"
-                        id="btnCadastrarForm"
-                        class="btn-submit-action"
-                        onclick="salvarCliente()">
+            </div>
+        </div>
+    </main>
 
-                    Cadastrar
+    <!-- ── Modal de Edição ── -->
+    <div class="modal-overlay" id="modalEditarOverlay" onclick="fecharModalSeForaDoConteudo(event)">
+        <div class="modal-box">
 
-                </button>
+            <div class="modal-header">
+                <h3>Editar Cliente</h3>
+                <button class="modal-close" onclick="fecharModalEdicao()">✕</button>
+            </div>
 
+            <p style="color:#888;font-size:14px;">Selecione um cliente para editar:</p>
+
+            <div class="lista-selecionar" id="listaSelecionarCliente"></div>
+
+            <div id="modal-editar-erro" class="modal-erro"></div>
+
+            <div class="form-edicao" id="formEdicaoCliente" style="display:none;">
+                <div><label>Nome</label><input type="text" id="editNome" placeholder="Nome"></div>
+                <div><label>CPF</label><input type="text" id="editCpf" placeholder="CPF"></div>
+                <div><label>Telefone</label><input type="text" id="editTelefone" placeholder="Telefone"></div>
+                <div><label>E-mail</label><input type="email" id="editEmail" placeholder="E-mail"></div>
+                <div><label>Endereço</label><input type="text" id="editEndereco" placeholder="Endereço"></div>
+
+                <div>
+                    <label>Plano</label>
+                    <div class="dropdown-modal" id="editDropdownPlano">
+                        <div class="select-btn" onclick="toggleDropdownModal('editDropdownPlano')">
+                            <span id="selected-edit-plano-label">Nenhum</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-list">
+                            <label onclick="selecionarPlanoEdicao('Nenhum')">Nenhum</label>
+                            <label onclick="selecionarPlanoEdicao('Premium')">Premium</label>
+                        </div>
+                        <input type="hidden" id="editPlano" value="Nenhum">
+                    </div>
+                </div>
+
+                <div id="editMensalidadeRow" style="display:none;">
+                    <label>Tipo de Mensalidade</label>
+                    <div class="dropdown-modal" id="editDropdownMensalidade">
+                        <div class="select-btn" onclick="toggleDropdownModal('editDropdownMensalidade')">
+                            <span id="selected-edit-mensalidade-label">Tipo de Mensalidade</span>
+                            <i class="fa fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-list">
+                            <label onclick="selecionarMensalidadeEdicao('Mensal')">Mensal</label>
+                            <label onclick="selecionarMensalidadeEdicao('Anual')">Anual</label>
+                        </div>
+                        <input type="hidden" id="editTipoMensalidade" value="">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancelar-modal" onclick="fecharModalEdicao()">Cancelar</button>
+                <button class="btn-salvar-modal" id="btnSalvarEdicao" onclick="salvarEdicaoCliente()">Salvar Alterações</button>
             </div>
 
         </div>
-
-    </main>
+    </div>
 
     <script src="/TelaCadastroCliente/js/CadCliente.js"></script>
-
 </body>
 </html>

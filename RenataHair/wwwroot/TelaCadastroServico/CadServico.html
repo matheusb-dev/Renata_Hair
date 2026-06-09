@@ -7,6 +7,171 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/CadServico.css">
+    <style>
+        /* ── Modal de Edição ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .modal-overlay.aberto {
+                display: flex;
+            }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 30px;
+            padding: 40px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .modal-header h3 {
+                font-size: 22px;
+                color: #bd5977;
+                font-weight: 700;
+            }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .lista-selecionar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+
+        .item-selecionar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f8fafc;
+        }
+
+            .item-selecionar:hover, .item-selecionar.ativo {
+                background: #fce8ef;
+                border-color: #bd5977;
+            }
+
+        .item-nome {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .item-detalhe {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .form-edicao {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+            .form-edicao label {
+                font-size: 13px;
+                font-weight: 600;
+                color: #4a5568;
+                margin-bottom: 4px;
+                display: block;
+            }
+
+            .form-edicao input {
+                width: 100%;
+                padding: 14px 18px;
+                border: 1px solid #e2e8f0;
+                border-radius: 15px;
+                font-size: 15px;
+                color: #4a5568;
+                background: #f8fafc;
+                outline: none;
+                box-sizing: border-box;
+            }
+
+                .form-edicao input:focus {
+                    border-color: #bd5977;
+                }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancelar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #4a5568;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-salvar-modal {
+            padding: 12px 28px;
+            border-radius: 15px;
+            border: none;
+            background: #bd5977;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn-editar-action {
+            background-color: white;
+            color: #bd5977;
+            border: 2px solid #bd5977;
+            padding: 12px 28px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-erro {
+            background: rgba(255,0,0,0.1);
+            color: #c0392b;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,23 +190,65 @@
 
     <main class="main-container">
         <div class="form-card-box">
-            <div class="form-header-row">
-                <h2>Cadastrar Serviço</h2>
+            <div class="form-header-row" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;">
+                <h2 style="margin-bottom:0;">Cadastrar Serviço</h2>
+                <button type="button" class="btn-editar-action" onclick="abrirModalEdicao()">
+                    <i class="fa fa-edit" style="margin-right:6px;"></i>Editar Serviço
+                </button>
             </div>
 
-            <div id="erro-cadastro" style="color: white; margin-bottom: 20px; display: none; background: rgba(255,0,0,0.2); padding: 10px; border-radius: 10px;"></div>
+            <div id="erro-cadastro" style="color:white;margin-bottom:20px;display:none;background:rgba(255,0,0,0.2);padding:10px;border-radius:10px;"></div>
 
             <div class="form-grid">
                 <div class="form-group"><i class="fa fa-cut"></i><input type="text" id="nomeServico" placeholder="Nome do Serviço"></div>
-                <div class="form-group"><i class="fa fa-clock"></i><input type="text" id="tempo" placeholder="Tempo (ex: 30min)"></div>
+                <div class="form-group"><i class="fa fa-clock"></i><input type="text" id="tempo" placeholder="Tempo (minutos)"></div>
                 <div class="form-group"><i class="fa fa-dollar-sign"></i><input type="text" id="preco" placeholder="Preço"></div>
             </div>
 
             <div class="form-footer-actions">
                 <button type="button" id="btnCadastrarForm" class="btn-submit-action" onclick="salvarServico()">Cadastrar</button>
+
             </div>
         </div>
     </main>
+
+    <!-- ── Modal de Edição ── -->
+    <div class="modal-overlay" id="modalEditarOverlay" onclick="fecharModalSeForaDoConteudo(event)">
+        <div class="modal-box">
+
+            <div class="modal-header">
+                <h3>Editar Serviço</h3>
+                <button class="modal-close" onclick="fecharModalEdicao()">✕</button>
+            </div>
+
+            <p style="color:#888;font-size:14px;">Selecione um serviço para editar:</p>
+
+            <div class="lista-selecionar" id="listaSelecionarServico"></div>
+
+            <div id="modal-editar-erro" class="modal-erro"></div>
+
+            <div class="form-edicao" id="formEdicao" style="display:none;">
+                <div>
+                    <label>Nome do Serviço</label>
+                    <input type="text" id="editNomeServico" placeholder="Nome do Serviço">
+                </div>
+                <div>
+                    <label>Tempo (minutos)</label>
+                    <input type="text" id="editTempo" placeholder="Ex: 30">
+                </div>
+                <div>
+                    <label>Preço</label>
+                    <input type="text" id="editPreco" placeholder="R$ 0,00">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancelar-modal" onclick="fecharModalEdicao()">Cancelar</button>
+                <button class="btn-salvar-modal" id="btnSalvarEdicao" onclick="salvarEdicaoServico()">Salvar Alterações</button>
+            </div>
+
+        </div>
+    </div>
 
     <script src="js/CadServico.js"></script>
 </body>
