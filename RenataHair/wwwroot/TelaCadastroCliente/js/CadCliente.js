@@ -181,6 +181,7 @@ async function abrirModalEdicaoCliente() {
     document.getElementById("modalEditarOverlay").classList.add("aberto");
     document.getElementById("modal-editar-erro").style.display = "none";
     document.getElementById("formEdicaoCliente").style.display = "none";
+    document.getElementById("listaSelecionarCliente").style.display = "block"; // garante lista visível
     document.getElementById("listaSelecionarCliente").innerHTML = "<p style='color:#888;text-align:center;padding:20px;'>Carregando...</p>";
 
     try {
@@ -211,9 +212,6 @@ function renderizarListaClientes(clientes) {
 async function selecionarClienteParaEditar(id) {
     clienteEditandoId = id;
 
-    document.querySelectorAll(".item-selecionar").forEach(el => el.classList.remove("ativo"));
-    event.currentTarget.classList.add("ativo");
-
     try {
         const response = await fetchAutenticado(`/api/Clientes/${id}`);
         const c = await response.json();
@@ -236,6 +234,7 @@ async function selecionarClienteParaEditar(id) {
             mensalidadeRow.style.display = "none";
         }
 
+        document.getElementById("listaSelecionarCliente").style.display = "none"; // esconde a lista
         document.getElementById("formEdicaoCliente").style.display = "block";
         document.getElementById("modal-editar-erro").style.display = "none";
     } catch (e) {
@@ -319,6 +318,9 @@ async function salvarEdicaoCliente() {
 
 function fecharModalEdicao() {
     document.getElementById("modalEditarOverlay").classList.remove("aberto");
+    document.getElementById("listaSelecionarCliente").style.display = "block"; // mostra lista novamente
+    document.getElementById("formEdicaoCliente").style.display = "none";       // esconde formulário
+    document.getElementById("modal-editar-erro").style.display = "none";       // limpa erros
     clienteEditandoId = null;
 }
 

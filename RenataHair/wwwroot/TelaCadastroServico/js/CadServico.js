@@ -132,6 +132,7 @@ async function abrirModalEdicao() {
     document.getElementById("modalEditarOverlay").classList.add("aberto");
     document.getElementById("modal-editar-erro").style.display = "none";
     document.getElementById("formEdicao").style.display = "none";
+    document.getElementById("listaSelecionarServico").style.display = "block"; // garante lista visível
     document.getElementById("listaSelecionarServico").innerHTML = "<p style='color:#888;text-align:center;padding:20px;'>Carregando...</p>";
 
     try {
@@ -162,13 +163,11 @@ function renderizarListaServicos(servicos) {
 function selecionarServicoParaEditar(id, nome, tempo, preco) {
     servicoEditandoId = id;
 
-    document.querySelectorAll(".item-selecionar").forEach(el => el.classList.remove("ativo"));
-    event.currentTarget.classList.add("ativo");
-
     document.getElementById("editNomeServico").value = nome;
     document.getElementById("editTempo").value = tempo;
     aplicarMascaraPreco(document.getElementById("editPreco"), preco);
 
+    document.getElementById("listaSelecionarServico").style.display = "none"; // esconde a lista
     document.getElementById("formEdicao").style.display = "block";
     document.getElementById("modal-editar-erro").style.display = "none";
 }
@@ -213,6 +212,9 @@ async function salvarEdicaoServico() {
 
 function fecharModalEdicao() {
     document.getElementById("modalEditarOverlay").classList.remove("aberto");
+    document.getElementById("listaSelecionarServico").style.display = "block"; // mostra lista novamente
+    document.getElementById("formEdicao").style.display = "none";              // esconde formulário
+    document.getElementById("modal-editar-erro").style.display = "none";       // limpa erros
     servicoEditandoId = null;
 }
 

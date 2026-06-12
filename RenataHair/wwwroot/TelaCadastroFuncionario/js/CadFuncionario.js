@@ -265,6 +265,7 @@ async function abrirModalEdicaoFuncionario() {
     document.getElementById("modalEditarOverlay").classList.add("aberto");
     document.getElementById("modal-editar-erro").style.display = "none";
     document.getElementById("formEdicaoFuncionario").style.display = "none";
+    document.getElementById("listaSelecionarFuncionario").style.display = "block"; // garante lista visível
     document.getElementById("listaSelecionarFuncionario").innerHTML = "<p style='color:#888;text-align:center;padding:20px;'>Carregando...</p>";
 
     try {
@@ -299,9 +300,6 @@ function renderizarListaFuncionarios(funcionarios) {
 async function selecionarFuncionarioParaEditar(id) {
     funcionarioEditandoId = id;
 
-    document.querySelectorAll(".item-selecionar").forEach(el => el.classList.remove("ativo"));
-    event.currentTarget.classList.add("ativo");
-
     try {
         const response = await fetchAutenticado(`/api/Funcionarios/${id}`);
         const f = await response.json();
@@ -325,6 +323,7 @@ async function selecionarFuncionarioParaEditar(id) {
 
         renderizarServicosEdicao(f.servicos || []);
 
+        document.getElementById("listaSelecionarFuncionario").style.display = "none"; // esconde a lista
         document.getElementById("formEdicaoFuncionario").style.display = "block";
         document.getElementById("modal-editar-erro").style.display = "none";
     } catch (e) {
@@ -426,6 +425,9 @@ async function salvarEdicaoFuncionario() {
 
 function fecharModalEdicao() {
     document.getElementById("modalEditarOverlay").classList.remove("aberto");
+    document.getElementById("listaSelecionarFuncionario").style.display = "block"; 
+    document.getElementById("formEdicaoFuncionario").style.display = "none";       
+    document.getElementById("modal-editar-erro").style.display = "none";           
     funcionarioEditandoId = null;
 }
 
