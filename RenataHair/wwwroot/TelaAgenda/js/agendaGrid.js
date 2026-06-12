@@ -4,10 +4,12 @@
 
 const GRID_CONFIG = {
     horaInicio: 7,
-    horaFim: 21,
+    horaFim: 23,        // estendido até 23h para agendamentos que terminam tarde
     intervaloMin: 30,
     alturaSlot: 60
 };
+
+const ALTURA_MINIMA_CARD = 110; // altura mínima em px para cards de 30min não ficarem achatados
 
 function montarGrid(funcionarios) {
     const grid = document.getElementById("agendaGrid");
@@ -42,8 +44,18 @@ function montarGrid(funcionarios) {
         const ehHoraCheia = minutos === 0;
 
         const celulaHora = document.createElement("div");
-        celulaHora.className = "grid-hora" + (ehHoraCheia ? " hora-cheia" : "");
-        celulaHora.textContent = ehHoraCheia ? horaLabel : "";
+        celulaHora.className = "grid-hora" + (ehHoraCheia ? " hora-cheia" : " meia-hora-label");
+
+        // mostra HH:00 nas horas cheias e HH:30 nas meias horas (menor e mais sutil)
+        if (ehHoraCheia) {
+            celulaHora.textContent = horaLabel;
+        } else {
+            const span = document.createElement("span");
+            span.className = "label-meia-hora";
+            span.textContent = horaLabel;
+            celulaHora.appendChild(span);
+        }
+
         grid.appendChild(celulaHora);
 
         funcionarios.forEach(func => {
@@ -98,7 +110,10 @@ function calcularPosicaoCard(horaInicio, horaFim) {
     const pxPorMinuto = GRID_CONFIG.alturaSlot / GRID_CONFIG.intervaloMin;
 
     const top = (minInicio - minBase) * pxPorMinuto;
-    const height = (minFim - minInicio) * pxPorMinuto - 4;
+    const heightCalculado = (minFim - minInicio) * pxPorMinuto - 4;
+
+    // garante altura mínima para cards de 30min não ficarem achatados
+    const height = Math.max(heightCalculado, ALTURA_MINIMA_CARD);
 
     return { top, height };
 }
