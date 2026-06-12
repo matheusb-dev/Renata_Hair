@@ -48,7 +48,7 @@ public class AgendamentosController : ControllerBase
         {
             "manha" => horaInicio >= new TimeOnly(6, 0) && horaInicio < new TimeOnly(12, 0),
             "tarde" => horaInicio >= new TimeOnly(12, 0) && horaInicio < new TimeOnly(18, 0),
-            "noite" => horaInicio >= new TimeOnly(18, 0) && horaInicio <= new TimeOnly(23, 59),
+            "noite" => horaInicio >= new TimeOnly(18, 0) && horaInicio <= new TimeOnly(20, 0), // ✅ limite máximo às 20:00
             _ => false
         };
     }

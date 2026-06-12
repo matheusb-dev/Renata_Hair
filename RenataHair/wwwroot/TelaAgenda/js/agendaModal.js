@@ -126,7 +126,7 @@ function aplicarLimiteTurno(funcionario) {
     const limites = {
         manha: { min: "06:00", max: "11:30" },
         tarde: { min: "12:00", max: "17:30" },
-        noite: { min: "18:00", max: "23:30" }
+        noite: { min: "18:00", max: "20:00" } // ✅ limite máximo às 20:00
     };
 
     if (turnos.length > 1) {
@@ -238,6 +238,11 @@ async function salvarAgendamento() {
         return mostrarErroModal("O horário deve ser em intervalos de 30 minutos (ex: 09:00 ou 09:30).");
     }
 
+    // ✅ Validação do limite máximo de 20:00
+    if (horaNum > 20 || (horaNum === 20 && minutos > 0)) {
+        return mostrarErroModal("O horário máximo de agendamento é 20:00.");
+    }
+
     const funcionario = AgendaState.funcionarios.find(f => f.id === funcionarioId);
     if (funcionario && !funcionario.pj) {
         const turnos = (funcionario.turno || "")
@@ -247,7 +252,7 @@ async function salvarAgendamento() {
         const dentroDoTurno = turnos.some(turno =>
             (turno === "manha" && horaNum >= 6 && horaNum < 12) ||
             (turno === "tarde" && horaNum >= 12 && horaNum < 18) ||
-            (turno === "noite" && horaNum >= 18 && horaNum <= 23)
+            (turno === "noite" && horaNum >= 18 && horaNum <= 20) // ✅ limite máximo às 20:00
         );
 
         if (!dentroDoTurno) {
